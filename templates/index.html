@@ -1,0 +1,260 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+
+  <title>All Showrooms</title>
+</head>
+
+<body>
+
+
+  <div class="main-container">
+    <div class="heading">
+      <span class="heading__title">ALL SHOWROOMS</span>
+      <div>
+        <button data-bs-toggle="modal" data-bs-target="#loginmodal">
+          <div class="text">
+            <span>Sign</span>
+            <span>In</span>
+          </div>
+          <div class="clone">
+            <span>Sign</span>
+            <span>In</span>
+          </div>
+          <svg width="20px" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </button>
+        <button data-bs-toggle="modal" data-bs-target="#signupmodal">
+          {% comment %}onclick="location.href='{% url 'test' %}';"{% endcomment %}
+          <div class="text">
+            <span>Sign</span>
+            <span>Up</span>
+          </div>
+          <div class="clone">
+            <span>Sign</span>
+            <span>Up</span>
+          </div>
+          <svg width="20px" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 cards">
+          <form method="POST" style="display: flex;width: 100%;">
+            {% csrf_token %}
+            <input value="Lights" name="title" hidden>
+            <button type="submit" class="card card-1" data-bs-toggle="modal" hx-post={% url 'showrooms' %}  hx-target="#card_id"
+              data-bs-target="#listmodal">
+              <span class="card__title">Lights({{l}})</span>
+            </button>
+          </form>
+        </div>
+        <div class="col-md-4 cards">
+          <form method="POST" style="display: flex;width: 100%;">
+            {% csrf_token %}
+            <input value="Tiles" name="title" hidden>
+            <button type="submit" class="card card-2" data-bs-toggle="modal" hx-post={% url 'showrooms' %} hx-target="#card_id" 
+              data-bs-target="#listmodal">
+              <span class="card__title">Tiles({{t}})</span>
+            </button>
+          </form>
+        </div>
+        <div class="col-md-4 cards">
+          <form method="POST" style="display: flex;width: 100%;">
+            {% csrf_token %}
+            <input value="Art and Culture" name="title" hidden>
+            <button type="submit" class="card card-3" data-bs-toggle="modal" hx-post={% url 'showrooms' %} hx-target="#card_id"
+              data-bs-target="#listmodal">
+              <span class="card__title">Art and Culture({{ac}})</span>
+            </button>
+          </form>
+        </div>
+        <div class="col-md-4 cards">
+          <form method="POST" style="display: flex;width: 100%;">
+            {% csrf_token %}
+            <input value="Cars" name="title" hidden>
+            <button type="submit" class="card card-4" data-bs-toggle="modal" hx-post={% url 'showrooms' %} hx-target="#card_id"
+              data-bs-target="#listmodal">
+              <span class="card__title">Cars({{c}})</span>
+            </button>
+          </form>
+        </div>
+        <div class="col-md-4 cards">
+          <form method="POST" style="display: flex;width: 100%;">
+            {% csrf_token %}
+            <input value="Sanitary" name="title" hidden>
+            <button type="submit" class="card card-5" data-bs-toggle="modal" hx-post={% url 'showrooms' %} hx-target="#card_id"
+              data-bs-target="#listmodal">
+              <span class="card__title">Sanitary({{s}})</span>
+            </button>
+          </form>
+        </div>
+        <div class="col-md-4 cards">
+          <form method="POST" style="display: flex;width: 100%;">
+            {% csrf_token %}
+            <input value="Sanitary Ware" name="title" hidden>
+            <button type="submit" class="card card-4" data-bs-toggle="modal" hx-post={% url 'showrooms' %} hx-target="#card_id"
+              data-bs-target="#listmodal">
+              <span class="card__title">Sanitary Ware({{sw}})</span>
+            </button>
+          </form>
+        </div>
+        <div class="col-md-4 cards">
+          <form method="POST" style="display: flex;width: 100%;">
+            {% csrf_token %}
+            <input value="Chip Board" name="title" hidden>
+            <button type="submit" class="card card-3" data-bs-toggle="modal" hx-post={% url 'showrooms' %} hx-target="#card_id"
+              data-bs-target="#listmodal">
+              <span class="card__title">Chip Board({{cb}})</span>
+            </button>
+          </form>
+        </div>
+        <div class="col-md-4 cards">
+          <form method="POST" style="display: flex;width: 100%;">
+            {% csrf_token %}
+            <input value="PVC Piping" name="title" hidden>
+            <button type="submit" class="card card-2" data-bs-toggle="modal" hx-post={% url 'showrooms' %} hx-target="#card_id"
+              data-bs-target="#listmodal">
+              <span class="card__title">PVC Piping({{pp}})</span>
+            </button>
+          </form>
+        </div>
+        <div class="col-md-4 cards">
+          <form method="POST" style="display: flex;width: 100%;">
+            {% csrf_token %}
+            <input value="Marble Stone" name="title" hidden>
+            <button type="submit" class="card card-1" data-bs-toggle="modal" hx-post={% url 'showrooms' %} hx-target="#card_id"
+              data-bs-target="#listmodal">
+              <span class="card__title">Marble Stone({{ms}})</span>
+            </button>
+          </form>
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+
+<!-- signin Modal -->
+<div class="modal fade" id="loginmodal" tabindex="-1" aria-labelledby="loginmodalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark">
+      <div class="modal-body">
+        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="myform bg-dark">
+          {% if request.user.is_authenticated %}
+          <h1 class="text-center">Logout</h1>
+          <hr>
+          <h4>You are logged in.Press button to logout.</h4>
+          <button onclick="location.href='{% url 'logout' %}';"
+            class="btn border border-light btn-dark w-100 mt-3 mb-3">LOGOUT</button>
+          {% else %}
+          <h1 class="text-center">Login</h1>
+          <form class="p-2" autocomplete="off" method="POST">
+            {% csrf_token %}
+            <div class="mb-3 mt-4">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" name="password" class="form-control">
+            </div>
+            <button type="submit" class="btn border border-light btn-dark w-100 mt-3 mb-3">LOGIN</button>
+            <p data-bs-toggle="modal" data-bs-target="#signupmodal" class="" style="cursor: pointer;">Not a member? <a
+                class="text-primary">Signup now</a></p>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- signup Modal -->
+<div class="modal fade" id="signupmodal" tabindex="-1" aria-labelledby="signupmodalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark">
+      <div class="modal-body">
+        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="myform bg-dark">
+          {% if request.user.is_authenticated %}
+          <h1 class="text-center">Logout</h1>
+          <hr>
+          <h4>You are logged in.Press button to logout.</h4>
+          <button onclick="location.href='{% url 'logout' %}';"
+            class="btn border border-light btn-dark w-100 mt-3 mb-3">LOGOUT</button>
+          {% else %}
+          <h1 class="text-center">Signup</h1>
+          <form class="p-2" action="signup" method="POST" autocomplete="off">
+            {% csrf_token %}
+            <div class="mb-3 mt-4">
+              <label for="exampleInputEmail1" class="form-label">First Name</label>
+              <input type="text" class="form-control" name="first_name" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 mt-4">
+              <label for="exampleInputEmail1" class="form-label">Last Name</label>
+              <input type="text" class="form-control" name="last_name" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 mt-4">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" name="email" type="text" hx-post="{% url 'check_email' %}"
+                hx-target="#username-check" hx-trigger="keyup">
+              <div id="username-check"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" name="password" class="form-control">
+            </div>
+            <button type="submit" class="btn border border-light btn-dark w-100 mt-3 mb-3">SIGNUP</button>
+            <p data-bs-toggle="modal" data-bs-target="#loginmodal" class="" style="cursor: pointer;">Already have
+              account? <a class="text-primary">Signin now</a></p>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- card Modal -->
+
+  <div class="modal fade" id="listmodal" tabindex="-1" aria-labelledby="listmodalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content" style="background-color: #171717;" id="card_id">
+          
+            {% include "partials/showroom_card.html" %}
+
+         
+      
+      </div>
+    </div>
+  </div>
+
+
+  
+
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+  {% include 'messages.html' %}
+  <script src="https://unpkg.com/htmx.org@1.8.5"></script>
+</body>
+
+</html>

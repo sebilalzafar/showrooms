@@ -1,0 +1,73 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}<title>Chip Board || Shop</title>{% endblock title %}
+{% block view_modal %}
+    <!-- Product Quick View Modal Start -->
+    <div class="modal fade quick-view-product" id="quick-view-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="far fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="single-product-thumb">
+                        <div class="row">
+                            <div class="col-lg-7 mb--40">
+                                <div class="row">
+                                    <div class="col-lg-10 order-lg-2">
+                                        <div class="single-product-thumbnail product-large-thumbnail axil-product thumbnail-badge zoom-gallery">
+                               
+                                            <div class="thumbnail">
+                                                <img src="{% static 'shop/assets/images/product/product-big-03.png' %}" alt="Product Images">
+                                                <div class="label-block label-right">
+                                                    <div class="product-badget">20% OFF</div>
+                                                </div>
+                                                <div class="product-quick-view position-view">
+                                                    <a href="{% static 'shop/assets/images/product/product-big-03.png' %}" class="popup-zoom">
+                                                        <i class="far fa-search-plus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 mb--40">
+                                <div class="single-product-content">
+                                    <div class="inner">
+                                  
+                                        <h3 class="product-title">Serif Coffee Table</h3>
+                                        <span class="price-amount">$155.00 - $255.00</span>
+                                        <ul class="product-meta">
+                                            <li><i class="fal fa-check"></i>In stock</li>
+                                            <li><i class="fal fa-check"></i>Free delivery available</li>
+                                        </ul>
+                                        <p class="description">In ornare lorem ut est dapibus, ut tincidunt nisi pretium. Integer ante est, elementum eget magna. Pellentesque sagittis dictum libero, eu dignissim tellus.</p>
+
+
+                                        <!-- Start Product Action Wrapper  -->
+                                        <div class="product-action-wrapper d-flex-center">
+                                            <!-- Start Quentity Action  -->
+                                            <div class="pro-qty"><input type="text" value="1"></div>
+                                            <!-- End Quentity Action  -->
+
+                                            <!-- Start Product Action  -->
+                                            <ul class="product-action d-flex-center mb--0">
+                                                <li class="add-to-cart"><a href="cart.html" class="axil-btn btn-bg-primary">Add to Cart</a></li>
+                                            </ul>
+                                            <!-- End Product Action  -->
+
+                                        </div>
+                                        <!-- End Product Action Wrapper  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product Quick View Modal End -->
+
+    {% endblock view_modal %}

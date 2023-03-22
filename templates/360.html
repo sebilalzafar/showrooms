@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+
+  <title>360-Shop</title>
+
+</head>
+<body>
+    <div class="mt-1 container-fluid">
+        <div class="heading_360">
+          <span class="heading__title sp text-uppercase">{{showroom_data.showroom_name}} (360°)</span>
+          <div>
+            <button data-label="Register" class="rainbow-hover" data-bs-toggle="modal" data-bs-target="#callbackmodal">
+                <span class="sp">Call Back</span>
+              </button>
+                <a href="{% url 'shop' showroom_data.showroom_type showroom_data.id %}" class=" btn_360">
+                Shop Now
+             </a>
+             
+              
+          </div>
+        </div>
+    
+        <hr>
+        <iframe class="w-100" src="{{showroom_data.link_360}}" title="">
+        </iframe>
+          <hr>
+
+    </div>
+
+
+
+    <!--call back Modal -->
+<div class="modal fade" id="callbackmodal" tabindex="-1" aria-labelledby="callbackmodalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="callbackmodalLabel">Call Back:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="callbackdiv">
+        <form autocomplete="off" class="row g-3" method="POST" hx-post="{% url 'callback' %}" _="on submit toggle @disabled on <button /> until htmx:afterOnLoad">
+          {% csrf_token %}
+          <input type="text" name="showroom" value="{{showroom_data.id}}" class="form-control"  hidden>
+          <div class="col-md-6">
+            <label class="form-label">Your name:</label>
+            <input type="text" name="name" class="form-control"   required>
+          </div>
+          <div class="col-md-6">
+            <label  class="form-label">Email:</label>
+            <div class="input-group">
+              <span class="input-group-text" >@</span>
+              <input type="email" name="email" class="form-control"   required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label  class="form-label">Phone Number:</label>
+            <div class="input-group">
+              <span class="input-group-text" >+92</span>
+              <input type="number"  name="number" class="form-control"   required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label  class="form-label">Reason Of call:</label>
+            <div class="input-group">
+              <span class="input-group-text" >?</span>
+              <input type="text" name="reason" class="form-control"   required>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <label  class="form-label">Best Time For Call:</label>
+            <input type="time" name="time" class="form-control" required>
+          </div>
+          <div class="col-12">
+            <button  class="btn btn-primary float-end w-100" type="submit">Submit form</button>
+          </div>
+        </form>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+  
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+    {% include 'messages.html' %}
+<script src="https://unpkg.com/htmx.org@1.8.5"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+{% if request.user.is_authenticated %}
+<div class="modal-header ">
+    <h1 class="modal-title fs-5 text-uppercase " id="listmodalLabel">List of {{title}} showrooms</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row" >
+{% for i in a %}
+<div class="col-12 d-flex justify-content-center">
+    <div class="card w-75 bg-dark">
+      <div class="card-header border border-primary p-2">
+        <h4 class=" ">{{i.showroom_name}}</h4>
+      </div>
+      <div class="card-body w-100">
+        <h6>&#8627; No. of Products : </h6>
+        <h6>&#8627; Address : {{i.address}} </h6>
+        <h6>&#8627; Since : {{i.since}} </h6>
+      </div>
+      <a href="{% url '360_and_shop' i.id %}" class="card_btn">
+        Launch 360° and Shop
+     </a>
+    </div>
+  </div>
+</div>
+
+{% empty %}
+<h3>No any showroom</h3>
+{% endfor %}
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  </div>
+{% else %}
+<h3 class="p-3">Signin first please<br>Sorry for inconvenience.</h3>
+{% endif %}
