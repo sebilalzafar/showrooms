@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser,BaseUserManager
 import uuid
 from django.utils.translation import gettext as _
 from datetime import datetime
+
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -135,21 +136,123 @@ class Product(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4 , unique=True)
     showroom = models.ForeignKey(Showrooms, on_delete=models.CASCADE)
     name = models.CharField( max_length=50)
-    image = models.ImageField(upload_to=None)
+    image = models.ImageField(upload_to=None , blank=True,null=True)
     company_name = models.ForeignKey(Company_name, on_delete=models.CASCADE)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     imported_or_local = models.CharField( max_length=50,choices=IMPORTED_OR_LOCAL ,)
     old_price = models.IntegerField()
     new_price = models.IntegerField()
-    discount_price = models.CharField( max_length=50 , blank=True, null=True,default="example:20% Off")
+    discount_price = models.CharField( max_length=50 , blank=True, null=True,default="0% Off")
     description =  models.TextField()
     created_at = models.DateField( auto_now_add=True)
     def __str__(self):
         return f"{self.showroom}({self.name})"     
-    
-    
+
+#================================================Lights
 class Lights(Product):
     product_number = models.CharField( max_length=50)
     watt = models.CharField( max_length=50)
     class Meta:
         verbose_name_plural = 'Lights'
+
+
+
+
+#================================================Tiles
+class Tiles(Product):
+    product_number = models.CharField( max_length=50)
+    size = models.CharField( max_length=50)
+    class Meta:
+        verbose_name_plural = 'Tiles'
+
+
+
+#================================================Art ANd cultures================================
+class Art_And_Culture(Product):
+    type = models.CharField( max_length=50)
+    model = models.CharField( max_length=50)
+    manufacturing_year = models.CharField( max_length=50)
+    registration_year = models.CharField( max_length=50)
+    import_year = models.CharField( max_length=50)
+    class Meta:
+        verbose_name_plural = 'Art And Culture'
+
+
+
+
+#================================================Cars
+class Cars(Product):
+    type = models.CharField( max_length=50)
+    model = models.CharField( max_length=50)
+    manufacturing_year = models.CharField( max_length=50)
+    registration_year = models.CharField( max_length=50)
+    import_year = models.CharField( max_length=50)
+    class Meta:
+        verbose_name_plural = 'Cars'
+
+
+
+
+#================================================Sanitary Ware
+class Sanitary_Ware(Product):
+    type = models.CharField( max_length=50)
+    size = models.CharField( max_length=50)
+    product_number = models.CharField( max_length=50)
+
+    class Meta:
+        verbose_name_plural = 'Sanitary Ware'
+
+
+#================================================Chip_Board
+
+TYPE = (
+    ('Waterproof','Waterproof'),
+    ('Non Waterproof','Non Waterproof'),
+
+)
+
+
+class Chip_Board(Product):
+    type = models.CharField( max_length=50 ,choices= TYPE)
+    size = models.CharField( max_length=50)
+    product_number = models.CharField( max_length=50)
+
+    class Meta:
+        verbose_name_plural = 'Chip Board'
+        
+        
+        
+#================================================Marble_Stone
+class Marble_Stone(Product):
+    product_number = models.CharField( max_length=50)
+    size = models.CharField( max_length=50)
+    class Meta:
+        verbose_name_plural = 'Marble Stone'
+
+
+
+
+#================================================PVC Piping
+
+SANITARY_TYPE = (
+    ('set','set'),
+    ('accessories','accessories'),
+
+)
+
+SANITARY_SET_TYPE = (
+    ('gold series','gold series'),
+    ('silver series','silver series'),
+
+)
+
+class Sanitary(Product):
+    type = models.CharField( max_length=50,choices=SANITARY_TYPE)
+    accessories_name = models.CharField( max_length=50 , blank=True , null=True)
+    set_type = models.CharField( max_length=50,choices=SANITARY_SET_TYPE , blank=True , null=True)
+    finshing = models.CharField( max_length=50)
+    style = models.CharField( max_length=50)
+    product_number = models.CharField( max_length=50)
+    size = models.CharField( max_length=50)
+    class Meta:
+        verbose_name_plural = 'Sanitary'

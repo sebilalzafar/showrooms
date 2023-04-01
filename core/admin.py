@@ -53,6 +53,11 @@ class UserAdmin(DjangoUserAdmin):
     
 admin.site.register(Categories)
 admin.site.register(Callback)
-admin.site.register(Product)
 admin.site.register(Lights)
+admin.site.register(Tiles)
+admin.site.register(Cars)
+admin.site.register(Sanitary_Ware)
 admin.site.register(Company_name)
+admin.site.register(Chip_Board)
+admin.site.register(Marble_Stone)
+admin.site.register(Sanitary)

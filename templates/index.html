@@ -105,6 +105,7 @@
             </button>
           </form>
         </div>
+       
         <div class="col-md-4 cards">
           <form method="POST" style="display: flex;width: 100%;">
             {% csrf_token %}
@@ -125,6 +126,8 @@
             </button>
           </form>
         </div>
+       
+        
         <div class="col-md-4 cards">
           <form method="POST" style="display: flex;width: 100%;">
             {% csrf_token %}
@@ -238,8 +241,8 @@
   <!-- card Modal -->
 
   <div class="modal fade" id="listmodal" tabindex="-1" aria-labelledby="listmodalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content" style="background-color: #171717;" id="card_id">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+      <div class="modal-content overflow-auto d-block" style="background-color: #171717;" id="card_id">
           
             {% include "partials/showroom_card.html" %}
 

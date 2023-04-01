@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect , HttpResponse
 from django.contrib.auth.decorators import *
 from django.views.decorators.cache import cache_control
+from django.http import Http404
 
 
 def home(request):
@@ -47,7 +48,6 @@ def home(request):
         'pp':pp,
         'ms':ms,
     }         
-    print(ms)
     return render(request, 'index.html',context)
 
 def signup(request):
@@ -99,32 +99,73 @@ def link_360_and_shop(request , pk):
     return render(request,"360.html",context)
 
 
+
+#==================================Shop Queries===================================
+
 def shop(request,pk,id):
     if pk == "Lights":
-        categories = Categories.objects.filter(showroom_type = 'Lights')
-        products = Lights.objects.filter(showroom=id)
-        print(products)
+        categories = Categories.objects.filter(showroom_type = "Lights")
+        products = Lights.objects.filter(showroom=id)   
         context = {
             'products':products,
             'categories':categories,
         }
         return render(request,"shop/lights.html",context)
     elif pk == "Tiles":
-        return render(request,"shop/tiles.html")
-    elif pk == "Art and Culture":
+        categories = Categories.objects.filter(showroom_type = "Tiles")
+        products = Tiles.objects.filter(showroom=id)   
+        context = {
+            'products':products,
+            'categories':categories,
+        }
+        return render(request,"shop/tiles.html",context)
+    #================================================NOtDone================================================
+    elif pk == "Art and Culture": 
         return render(request,"shop/art_and_culture.html")
+    #================================================NOtDone================================================
+    
     elif pk == "Cars":
-        return render(request,"shop/cars.html")
+        categories = Categories.objects.filter(showroom_type = "Cars")
+        products = Cars.objects.filter(showroom=id)   
+        context = {
+            'products':products,
+            'categories':categories,
+        }
+        return render(request,"shop/cars.html",context)
     elif pk == "Sanitary":
-        return render(request,"shop/sanitary.html")
+        categories = Categories.objects.filter(showroom_type = "Sanitary")
+        products = Sanitary.objects.filter(showroom=id)   
+        context = {
+            'products':products,
+            'categories':categories,
+        }
+        return render(request,"shop/sanitary.html",context)
     elif pk == "Sanitary Ware":
-        return render(request,"shop/sanitary_ware.html")
+        categories = Categories.objects.filter(showroom_type = "Sanitary Ware")
+        products = Sanitary_Ware.objects.filter(showroom=id)   
+        context = {
+            'products':products,
+            'categories':categories,
+        }
+        return render(request,"shop/sanitary_ware.html",context)
     elif pk == "Chip Board":
-        return render(request,"shop/chip_board.html")
+        categories = Categories.objects.filter(showroom_type = "Chip Board")
+        products = Chip_Board.objects.filter(showroom=id)   
+        context = {
+            'products':products,
+            'categories':categories,
+        }
+        return render(request,"shop/chip_board.html",context)
     elif pk == "PVC Piping":
         return render(request,"shop/pvc_piping.html")
     elif pk == "Marble Stone":
-        return render(request,"shop/marble_stone.html")
+        categories = Categories.objects.filter(showroom_type = "Marble Stone")
+        products = Marble_Stone.objects.filter(showroom=id)   
+        context = {
+            'products':products,
+            'categories':categories,
+        }
+        return render(request,"shop/marble_stone.html",context)
     else:
       return redirect("home")
         

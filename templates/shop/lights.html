@@ -20,7 +20,7 @@
                                             <div class="thumbnail">
                                                 <img src="{{ i.image.url }}" alt="Product Images">
                                                 <div class="label-block label-right">
-                                                    <div class="product-badget">20% OFF</div>
+                                                    <div class="product-badget">{{i.discount_price}}</div>
                                                 </div>
                                                 <div class="product-quick-view position-view">
                                                     <a href="{{i.image.url}}" class="popup-zoom">
@@ -45,7 +45,7 @@
                                             <li><i class="fal fa-check"></i>PRODUCT NUMBER: {{i.product_number}}</li>
                                             <li><i class="fal fa-check"></i>WATT: {{i.watt}}</li>
                                         </ul>
-                                        <p class="description">DESCRIPTION:<br>{{i.description}}</p>
+                                        <li class="text-primary description">DESCRIPTION:<br>{{i.description}}</li>
 
 
                                         <!-- Start Product Action Wrapper  -->
