@@ -11,7 +11,6 @@ from django.contrib.auth.decorators import *
 from django.views.decorators.cache import cache_control
 from django.http import Http404
 
-
 def home(request):
     if request.method == 'POST':
         email=request.POST.get('email')
@@ -103,69 +102,76 @@ def link_360_and_shop(request , pk):
 #==================================Shop Queries===================================
 
 def shop(request,pk,id):
-    if pk == "Lights":
-        categories = Categories.objects.filter(showroom_type = "Lights")
-        products = Lights.objects.filter(showroom=id)   
-        context = {
-            'products':products,
-            'categories':categories,
-        }
-        return render(request,"shop/lights.html",context)
-    elif pk == "Tiles":
-        categories = Categories.objects.filter(showroom_type = "Tiles")
-        products = Tiles.objects.filter(showroom=id)   
-        context = {
-            'products':products,
-            'categories':categories,
-        }
-        return render(request,"shop/tiles.html",context)
-    #================================================NOtDone================================================
-    elif pk == "Art and Culture": 
-        return render(request,"shop/art_and_culture.html")
-    #================================================NOtDone================================================
-    
-    elif pk == "Cars":
-        categories = Categories.objects.filter(showroom_type = "Cars")
-        products = Cars.objects.filter(showroom=id)   
-        context = {
-            'products':products,
-            'categories':categories,
-        }
-        return render(request,"shop/cars.html",context)
-    elif pk == "Sanitary":
-        categories = Categories.objects.filter(showroom_type = "Sanitary")
-        products = Sanitary.objects.filter(showroom=id)   
-        context = {
-            'products':products,
-            'categories':categories,
-        }
-        return render(request,"shop/sanitary.html",context)
-    elif pk == "Sanitary Ware":
-        categories = Categories.objects.filter(showroom_type = "Sanitary Ware")
-        products = Sanitary_Ware.objects.filter(showroom=id)   
-        context = {
-            'products':products,
-            'categories':categories,
-        }
-        return render(request,"shop/sanitary_ware.html",context)
-    elif pk == "Chip Board":
-        categories = Categories.objects.filter(showroom_type = "Chip Board")
-        products = Chip_Board.objects.filter(showroom=id)   
-        context = {
-            'products':products,
-            'categories':categories,
-        }
-        return render(request,"shop/chip_board.html",context)
-    elif pk == "PVC Piping":
-        return render(request,"shop/pvc_piping.html")
-    elif pk == "Marble Stone":
-        categories = Categories.objects.filter(showroom_type = "Marble Stone")
-        products = Marble_Stone.objects.filter(showroom=id)   
-        context = {
-            'products':products,
-            'categories':categories,
-        }
-        return render(request,"shop/marble_stone.html",context)
+    try:
+        if pk == "Lights":
+            categories = Categories.objects.filter(showroom_type = "Lights")
+            products = Lights.objects.filter(showroom=id)   
+            context = {
+                'products':products,
+                'categories':categories,
+            }
+            return render(request,"shop/lights.html",context)
+        elif pk == "Tiles":
+            categories = Categories.objects.filter(showroom_type = "Tiles")
+            products = Tiles.objects.filter(showroom=id)   
+            context = {
+                'products':products,
+                'categories':categories,
+            }
+            return render(request,"shop/tiles.html",context)
+        elif pk == "Art and Culture": 
+            categories = Categories.objects.filter(showroom_type = "Art and Culture")
+            products = Art_And_Culture.objects.filter(showroom=id)   
+            context = {
+                'products':products,
+                'categories':categories,
+            }
+            return render(request,"shop/art_and_culture.html",context)
+        
+        elif pk == "Cars":
+            categories = Categories.objects.filter(showroom_type = "Cars")
+            products = Cars.objects.filter(showroom=id)   
+            context = {
+                'products':products,
+                'categories':categories,
+            }
+            return render(request,"shop/cars.html",context)
+        elif pk == "Sanitary":
+            categories = Categories.objects.filter(showroom_type = "Sanitary")
+            products = Sanitary.objects.filter(showroom=id)   
+            context = {
+                'products':products,
+                'categories':categories,
+            }
+            return render(request,"shop/sanitary.html",context)
+        elif pk == "Sanitary Ware":
+            categories = Categories.objects.filter(showroom_type = "Sanitary Ware")
+            products = Sanitary_Ware.objects.filter(showroom=id)   
+            context = {
+                'products':products,
+                'categories':categories,
+            }
+            return render(request,"shop/sanitary_ware.html",context)
+        elif pk == "Chip Board":
+            categories = Categories.objects.filter(showroom_type = "Chip Board")
+            products = Chip_Board.objects.filter(showroom=id)   
+            context = {
+                'products':products,
+                'categories':categories,
+            }
+            return render(request,"shop/chip_board.html",context)
+        elif pk == "PVC Piping":
+            return render(request,"shop/pvc_piping.html")
+        elif pk == "Marble Stone":
+            categories = Categories.objects.filter(showroom_type = "Marble Stone")
+            products = Marble_Stone.objects.filter(showroom=id)   
+            context = {
+                'products':products,
+                'categories':categories,
+            }
+            return render(request,"shop/marble_stone.html",context)
+    except:
+        raise Http404
     else:
       return redirect("home")
         
@@ -202,3 +208,15 @@ def logout(request):
 
 
 
+
+#====================CART functionaity=================================
+
+def add_to_cart(request,id):
+    product = Product.objects.get(id = id)
+    if Cart.objects.get(user=request.user.pk , product=product).exist():
+        return HttpResponseRedirect(request.path_info)
+        
+    else:
+        a = Cart.objects.create(user=request.user,product=product)
+        a.save()
+    return HttpResponseRedirect(request.path_info)

@@ -168,16 +168,21 @@ class Tiles(Product):
 
 
 #================================================Art ANd cultures================================
+
+
+MADE_BY = (
+    ('handmade','handmade'),
+    ('machinemade','machinemade'),
+
+)
+
 class Art_And_Culture(Product):
-    type = models.CharField( max_length=50)
-    model = models.CharField( max_length=50)
-    manufacturing_year = models.CharField( max_length=50)
-    registration_year = models.CharField( max_length=50)
-    import_year = models.CharField( max_length=50)
+    type = models.CharField( max_length=50,choices=MADE_BY)
+    product_number = models.CharField( max_length=50)
+    size = models.CharField( max_length=50)
+    weight = models.CharField( max_length=50 , blank=True,null=True)
     class Meta:
         verbose_name_plural = 'Art And Culture'
-
-
 
 
 #================================================Cars
@@ -232,7 +237,7 @@ class Marble_Stone(Product):
 
 
 
-#================================================PVC Piping
+#================================================SANITARY
 
 SANITARY_TYPE = (
     ('set','set'),
@@ -256,3 +261,17 @@ class Sanitary(Product):
     size = models.CharField( max_length=50)
     class Meta:
         verbose_name_plural = 'Sanitary'
+
+
+
+
+
+
+
+#====================================cart=============
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_quantity = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
