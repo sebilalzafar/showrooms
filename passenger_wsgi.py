@@ -1,0 +1,1 @@
+from showrooms.wsgi import application
