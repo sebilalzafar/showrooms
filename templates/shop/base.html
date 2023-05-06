@@ -3,7 +3,6 @@
 <html class="no-js" lang="en">
 
 
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -160,8 +159,9 @@
                                 <div class="product-hover-action">
                                     <ul class="cart-action">
                                         
-                                        <li class="select-option"><a href="" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'   hx-post={% url 'add_to_cart' i.pk %}>Add to Cart</a></li>
-                                        <li class="quickview"><a style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#quick-view-modal-{{forloop.counter}}"><i class="far fa-eye"></i></a></li>
+                                        <li class="select-option"><a href="#" >Add to Cart</a></li>
+                                        {% comment %}{% url 'add_to_cart' i.pk %}?next={{ request.path|urlencode }}{% endcomment %}
+                                        <li class="quickview"><a style="cursor:pointer; " data-bs-toggle="modal" data-bs-target="#quick-view-modal-{{forloop.counter}}"><i class="far fa-eye"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -426,6 +426,7 @@
             </div>
         </div>
     </div>
+    {% include "messages.html" %}
 
     <!-- JS
 ============================================ -->

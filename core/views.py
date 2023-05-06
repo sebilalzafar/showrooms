@@ -106,6 +106,8 @@ def shop(request,pk,id):
         if pk == "Lights":
             categories = Categories.objects.filter(showroom_type = "Lights")
             products = Lights.objects.filter(showroom=id)   
+            showroom = Showrooms.objects.get(id=id)
+  
             context = {
                 'products':products,
                 'categories':categories,
@@ -212,11 +214,18 @@ def logout(request):
 #====================CART functionaity=================================
 
 def add_to_cart(request,id):
+    a= request.GET.get('next','')
     product = Product.objects.get(id = id)
-    if Cart.objects.get(user=request.user.pk , product=product).exist():
-        return HttpResponseRedirect(request.path_info)
-        
+    cart = Cart.objects.filter(user=request.user , product = product.id)
+    if cart.exists():
+        messages.error(request,"Already exist in cart.")
     else:
         a = Cart.objects.create(user=request.user,product=product)
         a.save()
-    return HttpResponseRedirect(request.path_info)
+        print("Product added ")
+        
+    return HttpResponseRedirect(a)
+
+
+
+            
