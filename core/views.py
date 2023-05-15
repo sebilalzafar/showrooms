@@ -224,15 +224,15 @@ def remove_from_cart(request, product_id):
 @cache_control(no_cache=True, must_revalidate=True , no_store=True)
 @login_required(login_url='home')
 def delete_from_cart(request, product_id):
-    a= request.GET.get('next','')
+    a = request.GET.get('next','')
     product = get_object_or_404(Product, pk=product_id)
     order = Order.objects.filter(user=request.user, ordered=False).first()
-    if order:
-        order_item = OrderItem.objects.filter(order=order, product=product).first()
-        if order_item:
-                order_item.delete()
-                messages.info(request, f"{product.title} removed from cart.")
-        return HttpResponseRedirect(a)
+    order_item = OrderItem.objects.filter(order = order.pk, product=product.id)
+    print(order_item)
+    if order_item:
+            order_item.delete()
+            messages.info(request, f"{product.title} removed from cart.")
+    return HttpResponseRedirect(a)
 
 
 
