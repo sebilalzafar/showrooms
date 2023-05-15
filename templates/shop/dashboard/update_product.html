@@ -1,0 +1,60 @@
+{% extends 'shop/dashboard/shop_dashboard_base.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+<!-- add_product.html -->
+
+{% block content %}
+  <div class="myForm">
+    <form method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+         <div class="col-sm-7">
+                <div class="form-row">
+                  <div class="form-group">
+                    {{ form.title|as_crispy_field }}
+                    {{ form.company_name|as_crispy_field }}
+                  </div>
+                  <div class="form-group">
+                    {{ form.category|as_crispy_field }}
+                    {{ form.product_number|as_crispy_field }}
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    {{ form.imported_or_local|as_crispy_field }}
+                  </div>
+                  <div class="form-group ">
+                    {{ form.old_price|as_crispy_field }}
+                  </div>
+                  <div class="form-group ">
+                    {{ form.new_price|as_crispy_field }}
+                  </div>
+                  <div class="form-group ">
+                    {{ form.discount_price|as_crispy_field }}
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    {{ form.description|as_crispy_field }}
+                  </div>
+                  <div class="form-group ">
+                    {{ form.image|as_crispy_field }}
+                  </div>
+                
+             
+                </div>
+                
+
+
+         </div>
+         <div class="col-sm-5 ">
+            <button type="submit" class="w-100 btn btn-primary mb-2">Save</button>
+            <button type="reset" class="w-100 btn btn-warning">Reset</button>
+
+         </div>
+
+        </div>
+    </form>
+</div><!-- End myform -->
+{% endblock content%}

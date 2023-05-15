@@ -1,69 +1,70 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="en">
 
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     {% block title %}{% endblock title %}
     <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'shop/assets/images/favicon.png' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'shop/assets/images/favicon.png' %}" />
 
     <!-- CSS
     ============================================ -->
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/font-awesome.css' %}">
-    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/flaticon/flaticon.css' %}">
-    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/slick.css' %}">
-    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/slick-theme.css' %}">
-    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/jquery-ui.min.css' %}">
-    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/sal.css' %}">
-    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/magnific-popup.css' %}">
-    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/base.css' %}">
-    <link rel="stylesheet" href="{% static 'shop/assets/css/style.min.css' %}">
-
+    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/font-awesome.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/flaticon/flaticon.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/slick.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/slick-theme.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/jquery-ui.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/sal.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/magnific-popup.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'shop/assets/css/style.min.css' %}" />
 </head>
-
 
 <body class="sticky-header">
     <!--[if lte IE 9]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-<![endif]-->
+      <p class="browserupgrade">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="https://browsehappy.com/">upgrade your browser</a> to improve
+        your experience and security.
+      </p>
+    <![endif]-->
     <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
     <!-- Start Header -->
     <header class="header axil-header header-style-5">
-        
         <!-- Start Mainmenu Area  -->
         <div id="axil-sticky-placeholder"></div>
         <div class="axil-mainmenu">
             <div class="container">
                 <div class="header-navbar">
                     <div class="header-brand">
-                        <a href="#" class="logo logo-dark">
-                            <img src="{% static '' %}" alt="Site Logo">
-                        </a>
-                        <a href="#" class="logo logo-light">
-                            <img src="{% static '' %}" alt="Site Logo">
-                        </a>
+                
+                        <a href="{% url 'home' %}" class="logo logo-dark"><span class="fw-bold text-danger">All <span class="text-primary">In</span> One</span></a>
+                     
                     </div>
                     <div class="header-main-nav">
                         <!-- Start Mainmanu Nav -->
                         <nav class="mainmenu-nav">
-                            <button class="mobile-close-btn mobile-nav-toggler"><i class="fas fa-times"></i></button>
+                            <button class="mobile-close-btn mobile-nav-toggler">
+                                <i class="fas fa-times"></i>
+                            </button>
                             <div class="mobile-nav-brand">
                                 <a href="#" class="logo">
-                                    <img src="{% static '' %}" alt="Site Logo">
+                                    <img src="{% static '' %}" alt="Site Logo" />
                                 </a>
                             </div>
                             <ul class="mainmenu">
                                 <li>
-                                    <a href="{% url 'home' %}">All In One</a>
+                                    <a href="{% url 'shop' showroom.showroom_type showroom.id %}" >
+                                        <span class=" text-danger">Go to<span class="text-primary"> Showroom</span></span>
+                                    </a>
                                 </li>
                             </ul>
                         </nav>
@@ -72,7 +73,9 @@
                     <div class="header-action">
                         <ul class="action-list">
                             <li class="axil-search d-xl-block d-none">
-                                <input type="search" class="placeholder product-search-input" name="search2" id="search2" value="" maxlength="128" placeholder="What are you looking for?" autocomplete="off">
+                                <input type="search" class="placeholder product-search-input" name="search2"
+                                    id="search2" value="" maxlength="128" placeholder="What are you looking for?"
+                                    autocomplete="off" />
                                 <button type="submit" class="icon wooc-btn-search">
                                     <i class="flaticon-magnifying-glass"></i>
                                 </button>
@@ -83,12 +86,12 @@
                                 </a>
                             </li>
                             <li class="shopping-cart">
-                                <a href="#" class="cart-dropdown-btn">
-                                    <span class="cart-count">3</span>
+                                <a href="{% url 'shop_cart' showroom.id %}" class="cart-dropdown-btn">
+                                    {% comment %}<span class="cart-count">3</span>{% endcomment %}
                                     <i class="flaticon-shopping-cart"></i>
                                 </a>
                             </li>
-                          
+
                             <li class="axil-mobile-toggle">
                                 <button class="menu-btn mobile-nav-toggler">
                                     <i class="flaticon-menu-2"></i>
@@ -100,158 +103,19 @@
             </div>
         </div>
         <!-- End Mainmenu Area -->
-        
     </header>
     <!-- End Header -->
-<hr>
-    <main class="main-wrapper">
-        
-        <!-- Start Shop Area  -->
-        <div class="axil-shop-area axil-section-gap bg-color-white">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="axil-shop-top">
-                            <div class="row">
-                                <div class="col-lg-9">
-                                    <div class="category-select">
-
-                                        <!-- Start Single Select  -->
-                                        <select class="single-select">
-                                            <option>Categories</option>
-                                            {% for i in categories %}
-                                                <option>{{i.name}}</option>
-                                                {% endfor %}
-                                            
-                                        </select>
-                                        <!-- End Single Select  -->
-
-                                      
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="category-select mt_md--10 mt_sm--10 justify-content-lg-end">
-                                        <!-- Start Single Select  -->
-                                        <select class="single-select">
-                                            <option selected>Sort by All</option>
-                                            <option>Sort by Imported</option>
-                                            <option>Sort by Local</option>
-                                        </select>
-                                        <!-- End Single Select  -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row row--15">
-                    {% for i in products %}
-                    <div class="col-xl-3 col-lg-4 col-sm-6">
-                        <div class="axil-product product-style-one has-color-pick mt--40">
-                            <div class="thumbnail">
-                                <a style="cursor:pointer;"  data-bs-toggle="modal" data-bs-target="#quick-view-modal-{{forloop.counter}}">
-                                    <img src="{{i.image.url}}" alt="Product Images">
-                                </a>
-                                <div class="label-block label-right">
-                                    <div class="product-badget">{{i.discount_price}}</div>
-                                </div>
-                                <div class="product-hover-action">
-                                    <ul class="cart-action">
-                                        
-                                        <li class="select-option"><a href="#" >Add to Cart</a></li>
-                                        {% comment %}{% url 'add_to_cart' i.pk %}?next={{ request.path|urlencode }}{% endcomment %}
-                                        <li class="quickview"><a style="cursor:pointer; " data-bs-toggle="modal" data-bs-target="#quick-view-modal-{{forloop.counter}}"><i class="far fa-eye"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.html">{{i.name}}</a></h5>
-                                    <div class="product-price-variant">
-                                        <span class="price current-price">{{i.new_price}}</span>
-                                        <span class="price old-price">{{i.old_price}}</span>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    {% block view_modal %}
+    <hr />
+   {% block content %}
+   
+   
+   
+   
+   {% endblock content %}
 
 
-
-
-
-
-
-
-                    {% endblock view_modal %}
-                    {% endfor %}
-                </div>
-                <div class="text-center pt--30">
-                    <a href="#" class="axil-btn btn-bg-lighter btn-load-more">Load more</a>
-                </div>
-            </div>
-            <!-- End .container -->
-        </div>
-        <!-- End Shop Area  -->
-       
-    </main>
-
-
-    <div class="service-area">
-        <div class="container">
-            <div class="row row-cols-xl-4 row-cols-sm-2 row-cols-1 row--20">
-                <div class="col">
-                    <div class="service-box service-style-2">
-                        <div class="icon">
-                            <img src="{% static 'shop/assets/images/icons/service1.png' %}" alt="Service">
-                        </div>
-                        <div class="content">
-                            <h6 class="title">Fast &amp; Secure Delivery</h6>
-                            <p>Tell about your service.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="service-box service-style-2">
-                        <div class="icon">
-                            <img src="{% static 'shop/assets/images/icons/service2.png' %}" alt="Service">
-                        </div>
-                        <div class="content">
-                            <h6 class="title">Money Back Guarantee</h6>
-                            <p>Within 10 days.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="service-box service-style-2">
-                        <div class="icon">
-                            <img src="{% static 'shop/assets/images/icons/service3.png' %}" alt="Service">
-                        </div>
-                        <div class="content">
-                            <h6 class="title">24 Hour Return Policy</h6>
-                            <p>No question ask.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="service-box service-style-2">
-                        <div class="icon">
-                            <img src="{% static 'shop/assets/images/icons/service4.png' %}" alt="Service">
-                        </div>
-                        <div class="content">
-                            <h6 class="title">Pro Quality Support</h6>
-                            <p>24/7 Live support.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Start Footer Area  -->
+    {% for i in settings %}
     <footer class="axil-footer-area footer-style-2">
         <!-- Start Footer Top Area  -->
         <div class="footer-top separator-top">
@@ -267,36 +131,40 @@
                             </a>
                         </div> -->
                             <div class="inner">
-                                <p>685 Market Street, <br>
-                                Las Vegas, LA 95820, <br>
-                                United States.
+                                <p>
+                                    {{ i.address }} 
                                 </p>
                                 <ul class="support-list-item">
-                                    <li><a href="mailto:example@domain.com"><i class="fal fa-envelope-open"></i> example@domain.com</a></li>
-                                    <li><a href="tel:(+01)850-315-5862"><i class="fal fa-phone-alt"></i> (+01) 850-315-5862</a></li>
+                                    <li>
+                                        <a href="mailto:{{i.email}}"><i class="fal fa-envelope-open"></i>
+                                            {{i.email}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="tel:{{i.phone}}"><i class="fal fa-phone-alt"></i> 
+                                            {{i.phone}}</a>
+                                    </li>
                                     <!-- <li><i class="fal fa-map-marker-alt"></i> 685 Market Street,  <br> Las Vegas, LA 95820, <br> United States.</li> -->
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <!-- End Single Widget  -->
-                    
+
                     <!-- Start Single Widget  -->
                     <div class="col-lg-3 col-sm-6">
                         <div class="axil-footer-widget">
                             <h5 class="widget-title">Download App</h5>
                             <div class="inner">
-                                <span>Save $3 With App & New User only</span>
                                 <div class="download-btn-group">
-                                    <div class="qr-code">
-                                        <img src="{% static 'shop/assets/images/others/qr.png' %}" alt="Axilthemes">
-                                    </div>
+                             
                                     <div class="app-link">
-                                        <a href="#">
-                                            <img src="{% static 'shop/assets/images/others/app-store.png' %}" alt="App Store">
+                                        <a href="{{i.android_app_link}}">
+                                            <img src="{% static 'shop/assets/images/others/app-store.png' %}"
+                                                alt="App Store" />
                                         </a>
-                                        <a href="#">
-                                            <img src="{% static 'shop/assets/images/others/play-store.png' %}" alt="Play Store">
+                                        <a href="{{i.ios_app_link}}">
+                                            <img src="{% static 'shop/assets/images/others/play-store.png' %}"
+                                                alt="Play Store" />
                                         </a>
                                     </div>
                                 </div>
@@ -314,9 +182,9 @@
                 <div class="row align-items-center">
                     <div class="col-xl-4">
                         <div class="social-share">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="{{i.facebook}}"><i class="fab fa-facebook-f"></i></a>
+                            <a href="{{i.instagram}}"><i class="fab fa-instagram"></i></a>
+                            <a href="{{i.twitter}}"><i class="fab fa-twitter"></i></a>
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#"><i class="fab fa-discord"></i></a>
                         </div>
@@ -324,17 +192,30 @@
                     <div class="col-xl-4 col-lg-12">
                         <div class="copyright-left d-flex flex-wrap justify-content-center">
                             <ul class="quick-link">
-                                <li>© 2022. All rights reserved by <a target="_blank" href="https://zamulk.com/">Zamulk</a>.</li>
+                                <li>
+                                    © 2023. All rights reserved by
+                                    <a target="_blank" href="https://zamulk.com/">Zamulk</a>.
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-12">
-                        <div class="copyright-right d-flex flex-wrap justify-content-xl-end justify-content-center align-items-center">
+                        <div
+                            class="copyright-right d-flex flex-wrap justify-content-xl-end justify-content-center align-items-center">
                             <span class="card-text">Accept For</span>
                             <ul class="payment-icons-bottom quick-link">
-                                <li><img src="{% static 'shop/assets/images/icons/cart/cart-1.png' %}" alt="paypal cart"></li>
-                                <li><img src="{% static 'shop/assets/images/icons/cart/cart-2.png' %}" alt="paypal cart"></li>
-                                <li><img src="{% static 'shop/assets/images/icons/cart/cart-5.png' %}" alt="paypal cart"></li>
+                                <li>
+                                    <img src="{% static 'shop/assets/images/icons/cart/cart-1.png' %}"
+                                        alt="paypal cart" />
+                                </li>
+                                <li>
+                                    <img src="{% static 'shop/assets/images/icons/cart/cart-2.png' %}"
+                                        alt="paypal cart" />
+                                </li>
+                                <li>
+                                    <img src="{% static 'shop/assets/images/icons/cart/cart-5.png' %}"
+                                        alt="paypal cart" />
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -343,17 +224,23 @@
         </div>
         <!-- End Copyright Area  -->
     </footer>
+    {% endfor %}
     <!-- End Footer Area  -->
 
     <!-- Header Search Modal End -->
     <div class="header-search-modal" id="header-search-modal">
-        <button class="card-close sidebar-close"><i class="fas fa-times"></i></button>
+        <button class="card-close sidebar-close">
+            <i class="fas fa-times"></i>
+        </button>
         <div class="header-search-wrap">
             <div class="card-header">
                 <form action="#">
                     <div class="input-group">
-                        <input type="search" class="form-control" name="prod-search" id="prod-search" placeholder="Write Something....">
-                        <button type="submit" class="axil-btn btn-bg-primary"><i class="far fa-search"></i></button>
+                        <input type="search" class="form-control" name="prod-search" id="prod-search"
+                            placeholder="Write Something...." />
+                        <button type="submit" class="axil-btn btn-bg-primary">
+                            <i class="far fa-search"></i>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -366,11 +253,14 @@
                     <div class="axil-product-list">
                         <div class="thumbnail">
                             <a href="single-product.html">
-                                <img src="{% static 'shop/assets/images/product/electric/product-09.png' %}" alt="Yantiti Leather Bags">
+                                <img src="{% static 'shop/assets/images/product/electric/product-09.png' %}"
+                                    alt="Yantiti Leather Bags" />
                             </a>
                         </div>
                         <div class="product-content">
-                            <h6 class="product-title"><a href="single-product.html">Media Remote</a></h6>
+                            <h6 class="product-title">
+                                <a href="single-product.html">Media Remote</a>
+                            </h6>
                             <div class="product-price-variant">
                                 <span class="price current-price">$29.99</span>
                                 <span class="price old-price">$49.99</span>
@@ -380,55 +270,17 @@
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
     </div>
     <!-- Header Search Modal End -->
 
-
-
-    <div class="cart-dropdown" id="cart-dropdown">
-        <div class="cart-content-wrap">
-            <div class="cart-header">
-                <h2 class="header-title">Cart review</h2>
-                <button class="cart-close sidebar-close"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="cart-body">
-                <ul class="cart-item-list">
-                    <li class="cart-item">
-                        <div class="item-img">
-                            <a href="single-product.html"><img src="{% static 'shop/assets/images/product/electric/product-01.png' %}" alt="Commodo Blown Lamp"></a>
-                            <button class="close-btn"><i class="fas fa-times"></i></button>
-                        </div>
-                        <div class="item-content">
-                          
-                            <h3 class="item-title"><a href="single-product-3.html">Wireless PS Handler</a></h3>
-                            <div class="item-price"><span class="currency-symbol">$</span>155.00</div>
-                            <div class="pro-qty item-quantity">
-                                <input type="number" class="quantity-input" value="15">
-                            </div>
-                        </div>
-                    </li>
-                
-                  
-                </ul>
-            </div>
-            <div class="cart-footer">
-                <h3 class="cart-subtotal">
-                    <span class="subtotal-title">Subtotal:</span>
-                    <span class="subtotal-amount">$610.00</span>
-                </h3>
-                <div class="group-btn">
-                    <a href="checkout.html" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% include "messages.html" %}
-
+{% include "../messages.html" %}
+    
     <!-- JS
+    
+
 ============================================ -->
     <!-- Modernizer JS -->
     <script src="{% static 'js/htmx.js' %}"></script>
@@ -446,8 +298,6 @@
     <script src="{% static 'shop/assets/js/vendor/counterup.js' %}"></script>
     <script src="{% static 'shop/assets/js/vendor/waypoints.min.js' %}"></script>
     <script src="{% static 'shop/assets/js/main.js' %}"></script>
-
 </body>
-
 
 </html>

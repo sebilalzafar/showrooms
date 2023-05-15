@@ -1,0 +1,65 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}<title>All in One || Shop</title>{% endblock title %}
+
+{% load mathfilters %}   <!-- Add this line -->
+
+
+
+
+{% block content %}
+<div class="cart-dropdown" >
+    <div class="cart-content-wrap">
+        <div class="cart-header">
+            <h2 class="header-title">Cart review</h2>
+            <button onclick="location.href='{% url 'shop' showroom.showroom_type showroom.id %}'" class="cart-close sidebar-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <h2>{{empty}}</h2>
+        {% for i in order_items %}
+        <div class="cart-body">
+            <ul class="cart-item-list">
+                <li class="cart-item">
+                    <div class="item-img">
+                        <a href=""><img
+                                src="{{i.product.image.url}}"
+                                alt="..." /></a>
+                        <button onclick="location.href='{% url 'delete_from_cart' i.product.pk %}?next={{ request.path|urlencode }}'" class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="item-content">
+                        <h3 class="item-title">
+                            <a href="#">{{i.product.title}}</a>
+                        </h3>
+                        <div class="item-price">
+                            <span class="currency-symbol"></span>Original Price: {{i.product.new_price}}
+                        </div>
+                        <div class="pro-qty item-quantity">
+                            <input type="number" class="quantity-input" value="{{i.quantity}}" /> 
+                        </div>
+                        <div class="btn-group  item-quantity" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" onclick="location.href='{% url 'remove_from_cart' i.product.pk %}?next={{ request.path|urlencode }}'" class="btn btn-danger ">Less</button>
+                            <input type="number" disabled class="quantity-input" value="{{i.quantity}}" /> 
+                            <button type="button" onclick="location.href='{% url 'add_to_cart_in_cart' i.product.pk %}?next={{ request.path|urlencode }}'" class="btn btn-success">Add</button>
+                            {% comment %}{% url 'shop' showroom.showroom_type showroom.id %}?next={{ request.path|urlencode }}{% endcomment %}
+                          </div>
+                        <span>Subtotal = {{i.product.new_price|mul:i.quantity}}</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <hr>
+        {% endfor %}
+        <div class="cart-footer">
+            <h3 class="cart-subtotal">
+                <span class="subtotal-title">Total:</span>
+                <span class="subtotal-amount">Rs / {{subtotal}}</span>
+            </h3>
+            <div class="group-btn">
+                <a {% if subtotal != None or 0 %} href="{% url 'checkout' showroom.id %}" {% else %} href="#" {% endif %} class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

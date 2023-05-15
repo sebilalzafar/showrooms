@@ -82,8 +82,18 @@ class Showrooms(User):
         return f"{self.showroom_name}({self.showroom_type})"
 
 
-        
-        
+
+class showroom_settings(models.Model):
+    showroom = models.ForeignKey(Showrooms, on_delete=models.CASCADE)   
+    address = models.CharField(max_length=250, blank=True , null = True)
+    email = models.CharField( max_length=50, blank=True , null = True)
+    phone = models.CharField( max_length=50 , blank=True , null = True) 
+    android_app_link = models.CharField( max_length=250 , default = "#")    
+    ios_app_link = models.CharField( max_length=250 , default = "#") 
+    facebook = models.CharField( max_length=50 , default = "#")   
+    instagram = models.CharField( max_length=50 , default = "#")   
+    twitter = models.CharField( max_length=50 , default = "#")   
+
  
 class Callback(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4 , unique=True)
@@ -111,7 +121,7 @@ class Categories(models.Model):
         verbose_name_plural = 'Categories'
 
     def __str__(self):
-        return f"{self.showroom_type}({self.name})" 
+        return f"{self.name}" 
 
 class Company_name(models.Model):
     showroom_type = models.CharField( max_length=50,choices=SHOWROOM_TYPES ,default="")
@@ -121,7 +131,7 @@ class Company_name(models.Model):
         verbose_name_plural = 'Company Name'
 
     def __str__(self):
-        return f"{self.showroom_type}({self.name})" 
+        return f"{self.name}" 
 
 IMPORTED_OR_LOCAL = (
     ('Imported','Imported'),
@@ -135,10 +145,11 @@ IMPORTED_OR_LOCAL = (
 class Product(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4 , unique=True)
     showroom = models.ForeignKey(Showrooms, on_delete=models.CASCADE)
-    name = models.CharField( max_length=50)
-    image = models.ImageField(upload_to=None , blank=True,null=True)
+    title = models.CharField( max_length=50)
+    image = models.ImageField(upload_to="products" )
     company_name = models.ForeignKey(Company_name, on_delete=models.CASCADE)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    product_number = models.CharField( max_length=50)
     imported_or_local = models.CharField( max_length=50,choices=IMPORTED_OR_LOCAL ,)
     old_price = models.IntegerField()
     new_price = models.IntegerField()
@@ -146,132 +157,45 @@ class Product(models.Model):
     description =  models.TextField()
     created_at = models.DateField( auto_now_add=True)
     def __str__(self):
-        return f"{self.showroom}({self.name})"     
-
-#================================================Lights
-class Lights(Product):
-    product_number = models.CharField( max_length=50)
-    watt = models.CharField( max_length=50)
-    class Meta:
-        verbose_name_plural = 'Lights'
+        return f"{self.showroom}({self.title})"     
 
 
 
 
-#================================================Tiles
-class Tiles(Product):
-    product_number = models.CharField( max_length=50)
-    size = models.CharField( max_length=50)
-    class Meta:
-        verbose_name_plural = 'Tiles'
+#====================CART and order item fuctionality functionaity=================================
 
 
-
-#================================================Art ANd cultures================================
-
-
-MADE_BY = (
-    ('handmade','handmade'),
-    ('machinemade','machinemade'),
-
-)
-
-class Art_And_Culture(Product):
-    type = models.CharField( max_length=50,choices=MADE_BY)
-    product_number = models.CharField( max_length=50)
-    size = models.CharField( max_length=50)
-    weight = models.CharField( max_length=50 , blank=True,null=True)
-    class Meta:
-        verbose_name_plural = 'Art And Culture'
-
-
-#================================================Cars
-class Cars(Product):
-    type = models.CharField( max_length=50)
-    model = models.CharField( max_length=50)
-    manufacturing_year = models.CharField( max_length=50)
-    registration_year = models.CharField( max_length=50)
-    import_year = models.CharField( max_length=50)
-    class Meta:
-        verbose_name_plural = 'Cars'
-
-
-
-
-#================================================Sanitary Ware
-class Sanitary_Ware(Product):
-    type = models.CharField( max_length=50)
-    size = models.CharField( max_length=50)
-    product_number = models.CharField( max_length=50)
-
-    class Meta:
-        verbose_name_plural = 'Sanitary Ware'
-
-
-#================================================Chip_Board
-
-TYPE = (
-    ('Waterproof','Waterproof'),
-    ('Non Waterproof','Non Waterproof'),
-
-)
-
-
-class Chip_Board(Product):
-    type = models.CharField( max_length=50 ,choices= TYPE)
-    size = models.CharField( max_length=50)
-    product_number = models.CharField( max_length=50)
-
-    class Meta:
-        verbose_name_plural = 'Chip Board'
-        
-        
-        
-#================================================Marble_Stone
-class Marble_Stone(Product):
-    product_number = models.CharField( max_length=50)
-    size = models.CharField( max_length=50)
-    class Meta:
-        verbose_name_plural = 'Marble Stone'
-
-
-
-
-#================================================SANITARY
-
-SANITARY_TYPE = (
-    ('set','set'),
-    ('accessories','accessories'),
-
-)
-
-SANITARY_SET_TYPE = (
-    ('gold series','gold series'),
-    ('silver series','silver series'),
-
-)
-
-class Sanitary(Product):
-    type = models.CharField( max_length=50,choices=SANITARY_TYPE)
-    accessories_name = models.CharField( max_length=50 , blank=True , null=True)
-    set_type = models.CharField( max_length=50,choices=SANITARY_SET_TYPE , blank=True , null=True)
-    finshing = models.CharField( max_length=50)
-    style = models.CharField( max_length=50)
-    product_number = models.CharField( max_length=50)
-    size = models.CharField( max_length=50)
-    class Meta:
-        verbose_name_plural = 'Sanitary'
-
-
-
-
-
-
-
-#====================================cart=============
-
-class Cart(models.Model):
+class Order(models.Model):
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4 , unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    product_quantity = models.IntegerField(default=1)
+    showroom = models.ForeignKey(Showrooms, on_delete=models.CASCADE , related_name="showrooms")
+    products_list = models.CharField(max_length=250 , blank= True , null = True)
+    first_name = models.CharField( max_length=50 , blank=True , null=True)
+    last_name = models.CharField( max_length=50 ,blank=True , null=True)
+    street_address = models.CharField( max_length=200,blank=True , null=True)
+    city = models.CharField( max_length=50,blank=True , null=True)
+    phone = models.IntegerField(blank=True , null=True)
+    email = models.EmailField(max_length=254,blank=True , null=True)
+    order_description = models.TextField(blank=True , null=True)
+    ordered = models.BooleanField(default=False)
+    approved = models.BooleanField(default=False)
+    rejected = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Order {self.pk}'
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f'{self.product.title} x {self.quantity}'
+
+    
+    
+    
