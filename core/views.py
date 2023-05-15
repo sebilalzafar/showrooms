@@ -10,6 +10,8 @@ from django.http import HttpResponseRedirect , HttpResponse
 from django.contrib.auth.decorators import *
 from django.views.decorators.cache import cache_control
 from .forms import ProductForm , SettingsForm
+from django.core.mail import send_mail as mail
+from django.conf import settings as conf_settings
 
 
 def home(request):
@@ -52,7 +54,6 @@ def signup(request):
         l_name = request.POST.get('last_name')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        print(f_name,l_name,email,password)
         if User.objects.filter(email=email).exists():
             messages.error(request,"Email already exist.Sorry for inconvenience")
             return redirect('home')
@@ -79,7 +80,6 @@ def check_email(request):
 
 def showrooms(request):
     title = request.POST.get('title')
-    print(title)
     a = Showrooms.objects.filter(showroom_type=title)
     context={
         'a':a,
@@ -107,7 +107,6 @@ def shop(request,pk,id):
         settings = showroom_settings.objects.filter(showroom=showroom)
         categories = Categories.objects.filter(showroom_type = showroom.showroom_type)
         product = Product.objects.filter(showroom=showroom)
-        print(product)
         context = {
             
             'categories':categories,
@@ -143,21 +142,26 @@ def shop_cart(request,showroom_id):
 
 @cache_control(no_cache=True, must_revalidate=True , no_store=True)
 @login_required(login_url='home')
-def checkout(request,showroom_id):
-    showroom = Showrooms.objects.get(id=showroom_id)
-    if Order.objects.filter(user=request.user , showroom = showroom , ordered=False).exists():
-        order = Order.objects.get(user=request.user , showroom = showroom , ordered=False)
-        order_items = OrderItem.objects.filter(order=order )
-        subtotal = sum(item.product.new_price * item.quantity for item in order_items)
-        context = {
-            'order_items':order_items,
-            'showroom':showroom,
-            'subtotal':subtotal,
-            'order':order,
-        }
-        return render(request,"shop/checkout.html",context)
-    else:
-        return redirect("shop_cart")
+def checkout(request,showroom_id):    
+    try:
+        showroom = Showrooms.objects.get(id=showroom_id)
+        if Order.objects.filter(user=request.user , showroom = showroom , ordered=False).exists():
+            order = Order.objects.get(user=request.user , showroom = showroom , ordered=False)
+            order_items = OrderItem.objects.filter(order=order )
+           
+            
+            subtotal = sum(item.product.new_price * item.quantity for item in order_items)
+            context = {
+                'order_items':order_items,
+                'showroom':showroom,
+                'subtotal':subtotal,
+                'order':order,
+            }
+            return render(request,"shop/checkout.html",context)
+        else:
+            return redirect("shop_cart")
+    except:
+        return redirect("home")
 
 
         
@@ -228,7 +232,6 @@ def delete_from_cart(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     order = Order.objects.filter(user=request.user, ordered=False).first()
     order_item = OrderItem.objects.filter(order = order.pk, product=product.id)
-    print(order_item)
     if order_item:
             order_item.delete()
             messages.info(request, f"{product.title} removed from cart.")
@@ -261,12 +264,17 @@ def complete_order(request, order_id):
         # Create a list of product names
         product_names = []
         order_products = OrderItem.objects.filter(order=a)
-        print(order_products)
         for order_product in order_products:
-            product_names.append(order_product.product.title )
+            product_names.append(f'{order_product.product.title} * {order_product.quantity}')
         # Update the Order's products field with the list of product names
         a.products_list = ', '.join(product_names)
         a.save()
+        subject = 'Your order confirmation'
+        message = f'Your order has been submitted to , We will Contact in 24 hours . You Ordered {a.products_list} , For further detail contact on {a.showroom.office_phone_number}.Thanks',
+        from_email = conf_settings.EMAIL_HOST_USER
+        recipient_list = [a.email]
+        mail(subject, str(message), from_email, recipient_list , fail_silently=False)
+        
         return render(request,"shop/order_confirmation.html")
     else:
         return redirect("home")
@@ -303,7 +311,6 @@ def shop_dashboard(request):
     if request.user.showroom_owner == True:
         showroom = Showrooms.objects.get(id=request.user.id)
         products = Product.objects.filter(showroom = showroom)
-        print(products)
         context = {
             "showroom": showroom,
             "products": products,
@@ -349,7 +356,6 @@ def update_product(request , id):
 
         if request.method == 'POST':
             form = ProductForm( request.user,request.POST, request.FILES , instance=product)
-            print(request.POST)
             if form.is_valid():
                 fm = form.save(commit = False)
                 fm.showroom = showroom

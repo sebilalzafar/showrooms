@@ -159,16 +159,17 @@ AUTH_USER_MODEL = 'core.User'
 
 
 
-#  A$=-JQV6wEW9
 
 
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'hallbooking.pepintl.com' # for ex ,, mail.site.com
-#EMAIL_HOST_USER = 'no-reply@hallbooking.pepintl.com'
-#EMAIL_HOST_PASSWORD = 'A$=-JQV6wEW9' 
-#EMAIL_PORT = 465
-#EMAIL_USE_SSL = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'showrooms.pepintl.com'   
+EMAIL_HOST_USER = 'no-reply@showrooms.pepintl.com'
+EMAIL_HOST_PASSWORD = 'tsp}1z-zkM0U' 
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_USE_TSL = True
 
+#tsp}1z-zkM0U
 
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_SCRIPT_SRC = ("'self'", "https://cdn.jsdelivr.net/")

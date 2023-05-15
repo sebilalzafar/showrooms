@@ -87,7 +87,7 @@
                             </li>
                             <li class="shopping-cart">
                                 <a href="{% url 'shop_cart' showroom.id %}" class="cart-dropdown-btn">
-                                    {% comment %}<span class="cart-count">3</span>{% endcomment %}
+                                    {% comment %}<span class="cart-count">{{cart_count}}</span>{% endcomment %}
                                     <i class="flaticon-shopping-cart"></i>
                                 </a>
                             </li>
