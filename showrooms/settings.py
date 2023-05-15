@@ -168,3 +168,7 @@ AUTH_USER_MODEL = 'core.User'
 #EMAIL_HOST_PASSWORD = 'A$=-JQV6wEW9' 
 #EMAIL_PORT = 465
 #EMAIL_USE_SSL = True
+
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "https://cdn.jsdelivr.net/")
