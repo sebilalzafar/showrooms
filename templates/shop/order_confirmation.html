@@ -16,16 +16,35 @@
 <body>
 	<header class="site-header" id="header">
 		<h1 class="site-header__title" data-lead-id="site-header-title">THANK YOU!</h1>
+		<h3>Check Your Email Address Please.</h3>
+		<p>Redirecting to the main page in <span id="countdown">10</span> seconds...</p>
+
 	</header>
 
 	<div class="main-content">
 		<i class="fa fa-check main-content__checkmark" id="checkmark"></i>
 		<p class="main-content__body" data-lead-id="main-content-body">Thanks a bunch for filling that out. It means a lot to us, just like you do! We really appreciate you giving us a moment of your time today. Thanks for being you.</p>
-		<p class="main-content__body" data-lead-id="main-content-body">Check Your Given Email.</p>
 	</div>
 
 	<footer class="site-footer" id="footer">
         <a href="{% url 'home' %}">Go to Home</a>
 	</footer>
+	<script>
+		var countdownElement = document.getElementById('countdown');
+		var countdown = 10;
+	
+		function updateCountdown() {
+		  countdown--;
+		  countdownElement.innerText = countdown;
+	
+		  if (countdown <= 0) {
+			window.location.href = "{% url 'home' %}";  // Replace 'main_page' with your actual URL name for the main page
+		  } else {
+			setTimeout(updateCountdown, 1000);  // Update countdown every 1 second (1000 milliseconds)
+		  }
+		}
+	
+		updateCountdown();
+	  </script>
 </body>
 </html>

@@ -12,7 +12,8 @@ from django.views.decorators.cache import cache_control
 from .forms import ProductForm , SettingsForm
 from django.core.mail import send_mail as mail
 from django.conf import settings as conf_settings
-
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 def home(request):
     if request.method == 'POST':
@@ -194,7 +195,7 @@ def add_to_cart(request, product_id , showroom_id):
 def add_to_cart_in_cart(request, product_id ):
     a= request.GET.get('next','')
     product = get_object_or_404(Product, pk=product_id)
-    order_item, created = OrderItem.objects.get_or_create(order__user=request.user.id, product=product)
+    order_item, created = OrderItem.objects.get_or_create(order__user=request.user.id, product=product , order__ordered = False)
     if not created:
         order_item.quantity += 1
         order_item.save()
@@ -270,10 +271,22 @@ def complete_order(request, order_id):
         a.products_list = ', '.join(product_names)
         a.save()
         subject = 'Your order confirmation'
-        message = f'Your order has been submitted to , We will Contact in 24 hours . You Ordered {a.products_list} , For further detail contact on {a.showroom.office_phone_number}.Thanks',
+        message = 'Your order has been submitted to , We will Contact in 24 hours . You Ordered {a.products_list} , For further detail contact on {a.showroom.office_phone_number}.Thanks',
         from_email = conf_settings.EMAIL_HOST_USER
         recipient_list = [a.email]
-        mail(subject, str(message), from_email, recipient_list , fail_silently=False)
+        
+        #mail(subject, str(message), from_email, recipient_list , fail_silently=False)
+        
+        # Render the email template with dynamic content
+        html_content = render_to_string('email_template.html', {
+            'message': message,
+            'recipient_name': first_name,
+        })
+        # Create the email message with HTML content
+        email = EmailMultiAlternatives(subject, body=html_content, from_email=from_email, to=recipient_list)
+        email.attach_alternative(html_content, "text/html")
+        # Send the email
+        email.send()
         
         return render(request,"shop/order_confirmation.html")
     else:
