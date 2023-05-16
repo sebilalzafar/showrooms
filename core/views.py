@@ -271,7 +271,7 @@ def complete_order(request, order_id):
         a.products_list = ', '.join(product_names)
         a.save()
         subject = 'Your order confirmation'
-        message = 'Your order has been submitted to , We will Contact in 24 hours . You Ordered {a.products_list} , For further detail contact on {a.showroom.office_phone_number}.Thanks',
+        message = 'Your order has been submitted to , We will Contact in 24 hours .',
         from_email = conf_settings.EMAIL_HOST_USER
         recipient_list = [a.email]
         
@@ -281,6 +281,8 @@ def complete_order(request, order_id):
         html_content = render_to_string('email_template.html', {
             'message': message,
             'recipient_name': first_name,
+            'products_list': a.products_list,
+            'office_phone_number': a.showroom.office_phone_number,
         })
         # Create the email message with HTML content
         email = EmailMultiAlternatives(subject, body=html_content, from_email=from_email, to=recipient_list)
