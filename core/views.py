@@ -287,7 +287,7 @@ def complete_order(request, order_id):
         email = EmailMultiAlternatives(subject, body=html_content, from_email=from_email, to=recipient_list , )
         email.attach_alternative(html_content, "text/html")
         # Send the email
-        sent = email.send(fail_silently=False)
+        sent = email.send(fail_silently=True)
         if sent == 1:
             print("Email sent successfully.")
         else:
