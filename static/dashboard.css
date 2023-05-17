@@ -93,3 +93,8 @@ body {
 
 
 
+@media print {
+  .print_not_show {
+    display: none !important;
+  }
+}

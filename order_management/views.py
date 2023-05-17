@@ -12,8 +12,7 @@ from django.views.decorators.cache import cache_control
 from core.forms import ProductForm , SettingsForm
 from django.core.mail import send_mail as mail
 from django.conf import settings as conf_settings
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
+
 # Create your views here.
 
 
@@ -65,3 +64,73 @@ def invoice_order(request,order_id):
         return render(request , "shop/dashboard/invoice.html" , context)
     else:
         return redirect("shop_dashboard_signin")
+    
+
+
+
+@cache_control(no_cache=True, must_revalidate=True , no_store=True)
+@login_required(login_url='shop_dashboard_signin')
+def reject_order(request, order_id):
+    a= request.GET.get('next','')
+    order_detail = Order.objects.get(id=order_id)
+    order_detail.rejected = True
+    order_detail.save()
+    
+    #message = 'Your order has been submitted to , We will Contact in 24 hours .',
+    subject = 'Your order rejection.'
+    from_email = conf_settings.EMAIL_HOST_USER
+    message = "Your Order has been cancelled due to some reason."
+    recipient_list = [order_detail.email]
+        
+    mail(subject, message, from_email, recipient_list , fail_silently=True)
+    messages.success(request,"Order has been rejected and mail has been sent to customer.")
+    
+    return HttpResponseRedirect(a)
+
+
+@cache_control(no_cache=True, must_revalidate=True , no_store=True)
+@login_required(login_url='shop_dashboard_signin')
+def accept_order(request, order_id):
+    a= request.GET.get('next','')
+    order_detail = Order.objects.get(id=order_id)
+    order_detail.accepted = True
+    order_detail.save()
+    
+    ##message = 'Your order has been submitted to , We will Contact in 24 hours .',
+    #subject = 'Your order confirmation'
+    #from_email = conf_settings.EMAIL_HOST_USER
+    #message = "Your Order has been accepted .We will contact you soon."
+    #recipient_list = [order_detail.email]
+        
+    #mail(subject, message, from_email, recipient_list , fail_silently=True)
+    messages.success(request,"Order has been accepted.")
+    
+    return HttpResponseRedirect(a)
+
+
+@cache_control(no_cache=True, must_revalidate=True , no_store=True)
+@login_required(login_url='shop_dashboard_signin')
+def deliver_order(request, order_id):
+    a= request.GET.get('next','')
+    order_detail = Order.objects.get(id=order_id)
+    if request.method == "POST":
+        email_message = request.POST.get("email_message",) 
+        print(email_message)
+        order_detail.delivered = True
+        order_detail.save()
+    
+        ##message = 'Your order has been submitted to , We will Contact in 24 hours .',
+        #subject = 'Your order confirmation'
+        #from_email = conf_settings.EMAIL_HOST_USER
+        #message = "Your Order has been accepted .We will contact you soon."
+        #recipient_list = [order_detail.email]
+            
+        #mail(subject, message, from_email, recipient_list , fail_silently=True)
+        messages.success(request,"Order has been delivered.")
+    
+        return HttpResponseRedirect(a)
+
+
+
+    
+    
