@@ -1,0 +1,53 @@
+{% extends 'shop/dashboard/shop_dashboard_base.html' %} 
+{% block content %}
+<div class="d-flex justify-content-between">
+    <h1>All Orders</h1>
+    <div class="filter ">
+        <label >Filter by status:</label>
+        <form method="GET">
+
+        <select  id="status-filter" name="status" class="form-select form-select-sm " onchange="this.form.submit()">
+            <option value="all" {% if filter_status == 'all' %}selected{% endif %}>All Orders</option>
+            <option value="accepted" {% if filter_status == 'accepted' %}selected{% endif %}>Accepted Orders</option>
+            <option value="rejected" {% if filter_status == 'rejected' %}selected{% endif %}>Rejected Orders</option>
+            <option value="delivered" {% if filter_status == 'delivered' %}selected{% endif %}>Delivered Orders</option>
+        </select>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table id="order-table" class="table table-dark table-hover table-lg table-bordered border-danger">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Order ID#</th>
+          <th scope="col">Total Amount</th>
+          <th scope="col">Status</th>
+          <th scope="col">Created Date</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody >
+        {% for i in orders %}
+        <tr>
+          <td class="text-uppercase">{{forloop.counter}}</td>
+          <td class="text-uppercase">{{i.id}}</td>
+          <td class="text-uppercase">Rs {{i.total_amount}}</td>
+          <td class="text-uppercase">{% if i.approved == True and i.delivered == True  %} <span class="badge bg-success text-wrap">Delivered</span> {% elif i.rejected == True %}<span class="badge bg-danger text-wrap"> Rejected </span>{% elif i.accepted == True  %} <span class="badge bg-info text-wrap">Accepted </span>{% else %} <span class="badge bg-warning text-wrap">Not viewed</span> {% endif %}</td>
+          <td class="text-uppercase">{{i.created_at}}</td>
+          <td>
+            <a href="{% url 'invoice_order' i.id %}" class="btn btn-primary btn-sm">View Order</a>
+          </td>
+        </tr>
+        {% endfor %}
+        
+        
+
+        
+   
+      </tbody>
+    </table>
+  </div>
+  
+{% endblock content %}

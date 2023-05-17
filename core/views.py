@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect , HttpResponse
 from django.contrib.auth.decorators import *
 from django.views.decorators.cache import cache_control
-from .forms import ProductForm , SettingsForm
+from core.forms import ProductForm , SettingsForm
 from django.core.mail import send_mail as mail
 from django.conf import settings as conf_settings
 from django.core.mail import EmailMultiAlternatives
@@ -254,6 +254,7 @@ def complete_order(request, order_id):
         phone = request.POST.get("phone")
         email = request.POST.get("email")
         order_description = request.POST.get("order_description")
+        total_amount = request.POST.get("total_amount")
         a.first_name = first_name
         a.last_name = last_name
         a.street_address = street_address
@@ -269,7 +270,10 @@ def complete_order(request, order_id):
             product_names.append(f'{order_product.product.title} * {order_product.quantity}')
         # Update the Order's products field with the list of product names
         a.products_list = ', '.join(product_names)
+        a.total_amount = total_amount
         a.save()
+        
+        
         subject = 'Your order confirmation'
         #message = 'Your order has been submitted to , We will Contact in 24 hours .',
         from_email = conf_settings.EMAIL_HOST_USER

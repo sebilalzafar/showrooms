@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #=======================My Apps=====================
     'core',
+    'order_management',
     'crispy_bootstrap4',
     'crispy_forms',
     'mathfilters',

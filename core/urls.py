@@ -13,15 +13,15 @@ urlpatterns = [
     
     #dashboard
     
-    path('shop_dashboard_signin', views.shop_dashboard_signin, name="shop_dashboard_signin"),
+    path('shop-dashboard-signin', views.shop_dashboard_signin, name="shop_dashboard_signin"),
     path('dashboard_logout', views.dashboard_logout, name="dashboard_logout"),
-    path('shop_dashboard', views.shop_dashboard, name="shop_dashboard"),
+    path('shop-dashboard', views.shop_dashboard, name="shop_dashboard"),
     path('settings', views.settings, name="settings"),
     
     
-    path('shop_dashboard/add_product', views.add_product, name="add_product"),
-    path('shop_dashboard/update_product/<str:id>', views.update_product, name="update_product"),
-    path('shop_dashboard/delete_product/<str:id>', views.delete_product, name="delete_product"),
+    path('shop-dashboard/add_product', views.add_product, name="add_product"),
+    path('shop-dashboard/update_product/<str:id>', views.update_product, name="update_product"),
+    path('shop-dashboard/delete_product/<str:id>', views.delete_product, name="delete_product"),
     
     
     
