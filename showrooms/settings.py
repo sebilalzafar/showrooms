@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #=======================My Apps=====================
-    'core',
+    'core.apps.CoreConfig',
     'order_management',
     'crispy_bootstrap4',
     'crispy_forms',

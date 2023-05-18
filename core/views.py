@@ -105,7 +105,10 @@ def link_360_and_shop(request , pk):
 @login_required(login_url='home')
 def shop(request,pk,id):
         showroom = Showrooms.objects.get(id=id)
-        settings = showroom_settings.objects.filter(showroom=showroom)
+        try:
+            settings = showroom_settings.objects.get(showroom=showroom)
+        except:
+            settings=None
         categories = Categories.objects.filter(showroom_type = showroom.showroom_type)
         product = Product.objects.filter(showroom=showroom)
         context = {
@@ -122,6 +125,10 @@ def shop(request,pk,id):
 @login_required(login_url='home')
 def shop_cart(request,showroom_id):
     showroom = Showrooms.objects.get(id=showroom_id)
+    try:
+        settings = showroom_settings.objects.get(showroom=showroom)
+    except:
+        settings=None
     if Order.objects.filter(user=request.user , showroom = showroom , ordered=False).exists():
         order = Order.objects.get(user=request.user , showroom = showroom , ordered=False)
         order_items = OrderItem.objects.filter(order=order )
@@ -130,12 +137,15 @@ def shop_cart(request,showroom_id):
             'order_items':order_items,
             'showroom':showroom,
             'subtotal':subtotal,
+            'settings':settings,
         }
         return render(request,"shop/cart.html",context)
     else:
         context = {
             'showroom':showroom,
             'empty':"Empty Cart",
+            'settings':settings,
+            
         }
         messages.error(request,"You have an Empty Cart")
         return render(request,"shop/cart.html",context)
@@ -146,6 +156,10 @@ def shop_cart(request,showroom_id):
 def checkout(request,showroom_id):    
     try:
         showroom = Showrooms.objects.get(id=showroom_id)
+        try:
+            settings = showroom_settings.objects.get(showroom=showroom)
+        except:
+            settings=None
         if Order.objects.filter(user=request.user , showroom = showroom , ordered=False).exists():
             order = Order.objects.get(user=request.user , showroom = showroom , ordered=False)
             order_items = OrderItem.objects.filter(order=order )
@@ -157,6 +171,7 @@ def checkout(request,showroom_id):
                 'showroom':showroom,
                 'subtotal':subtotal,
                 'order':order,
+                'settings':settings,
             }
             return render(request,"shop/checkout.html",context)
         else:
@@ -428,7 +443,7 @@ def settings(request):
         else :
             instance = None
         if request.method == 'POST':
-            form = SettingsForm( request.POST,  instance=instance )
+            form = SettingsForm( request.POST, request.FILES,  instance=instance )
             if form.is_valid():
                 fm = form.save(commit = False)
                 fm.showroom = showroom

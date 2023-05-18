@@ -84,10 +84,11 @@ class Showrooms(User):
 
 
 class showroom_settings(models.Model):
-    showroom = models.ForeignKey(Showrooms, on_delete=models.CASCADE)   
-    address = models.CharField(max_length=250, blank=True , null = True)
-    email = models.CharField( max_length=50, blank=True , null = True)
-    phone = models.CharField( max_length=50 , blank=True , null = True) 
+    showroom = models.ForeignKey(Showrooms, on_delete=models.CASCADE)  
+    shop_logo = models.ImageField( upload_to="shop_logo", default="shop_logo/default_shop_logo.png", blank=True , null = True ) 
+    address = models.CharField(max_length=250, blank=True , null = True , default="Set your address in shop settings")
+    email = models.CharField( max_length=50, blank=True , null = True , default="Set your email in shop settings")
+    phone = models.CharField( max_length=50 , blank=True , null = True , default="Set your phone in shop settings") 
     android_app_link = models.CharField( max_length=250 , default = "#")    
     ios_app_link = models.CharField( max_length=250 , default = "#") 
     facebook = models.CharField( max_length=50 , default = "#")   

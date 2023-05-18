@@ -63,7 +63,8 @@
                             <ul class="mainmenu">
                                 <li>
                                     <a href="{% url 'shop' showroom.showroom_type showroom.id %}" >
-                                        <span class=" text-danger">Go to<span class="text-primary"> Showroom</span></span>
+                                        <span class=" text-danger">{{showroom.showroom_name}}</span>
+                                        <img src="{{settings.shop_logo.url}}" alt="configure logo 32*32" height="34px" width="34px">
                                     </a>
                                 </li>
                             </ul>
@@ -115,7 +116,6 @@
 
 
     <!-- Start Footer Area  -->
-    {% for i in settings %}
     <footer class="axil-footer-area footer-style-2">
         <!-- Start Footer Top Area  -->
         <div class="footer-top separator-top">
@@ -132,16 +132,16 @@
                         </div> -->
                             <div class="inner">
                                 <p>
-                                    {{ i.address }} 
+                                    {{ settings.address }} 
                                 </p>
                                 <ul class="support-list-item">
                                     <li>
-                                        <a href="mailto:{{i.email}}"><i class="fal fa-envelope-open"></i>
-                                            {{i.email}}</a>
+                                        <a href="mailto:{{settings.email}}"><i class="fal fa-envelope-open"></i>
+                                            {{settings.email}}</a>
                                     </li>
                                     <li>
-                                        <a href="tel:{{i.phone}}"><i class="fal fa-phone-alt"></i> 
-                                            {{i.phone}}</a>
+                                        <a href="tel:{{settings.phone}}"><i class="fal fa-phone-alt"></i> 
+                                            {{settings.phone}}</a>
                                     </li>
                                     <!-- <li><i class="fal fa-map-marker-alt"></i> 685 Market Street,  <br> Las Vegas, LA 95820, <br> United States.</li> -->
                                 </ul>
@@ -158,11 +158,11 @@
                                 <div class="download-btn-group">
                              
                                     <div class="app-link">
-                                        <a href="{{i.android_app_link}}">
+                                        <a href="{{settings.android_app_link}}">
                                             <img src="{% static 'shop/assets/images/others/app-store.png' %}"
                                                 alt="App Store" />
                                         </a>
-                                        <a href="{{i.ios_app_link}}">
+                                        <a href="{{settings.ios_app_link}}">
                                             <img src="{% static 'shop/assets/images/others/play-store.png' %}"
                                                 alt="Play Store" />
                                         </a>
@@ -182,9 +182,9 @@
                 <div class="row align-items-center">
                     <div class="col-xl-4">
                         <div class="social-share">
-                            <a href="{{i.facebook}}"><i class="fab fa-facebook-f"></i></a>
-                            <a href="{{i.instagram}}"><i class="fab fa-instagram"></i></a>
-                            <a href="{{i.twitter}}"><i class="fab fa-twitter"></i></a>
+                            <a href="{{settings.facebook}}"><i class="fab fa-facebook-f"></i></a>
+                            <a href="{{settings.instagram}}"><i class="fab fa-instagram"></i></a>
+                            <a href="{{settings.twitter}}"><i class="fab fa-twitter"></i></a>
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#"><i class="fab fa-discord"></i></a>
                         </div>
@@ -224,7 +224,6 @@
         </div>
         <!-- End Copyright Area  -->
     </footer>
-    {% endfor %}
     <!-- End Footer Area  -->
 
     <!-- Header Search Modal End -->

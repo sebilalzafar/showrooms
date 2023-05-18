@@ -50,6 +50,11 @@ def all_orders(request):
 def invoice_order(request,order_id):
     if request.user.showroom_owner == True:
         showroom = Showrooms.objects.get(id=request.user.id)
+        try:
+            settings = showroom_settings.objects.get(showroom=showroom)
+        except:
+            settings=None
+        print(settings)
         products = Product.objects.filter(showroom = showroom)
         order_detail = Order.objects.get(id=order_id)
         order_items = OrderItem.objects.filter(order=order_detail)
@@ -60,6 +65,7 @@ def invoice_order(request,order_id):
             "order_detail": order_detail,
             "order_items": order_items,
             "total": total,
+            "settings": settings,
         }
         return render(request , "shop/dashboard/invoice.html" , context)
     else:
