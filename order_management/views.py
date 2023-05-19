@@ -24,13 +24,13 @@ def all_orders(request):
         products = Product.objects.filter(showroom = showroom)
         filter_status = request.GET.get('status', 'all')
         if filter_status == 'all':
-            orders = Order.objects.all().order_by('-created_at')
+            orders = Order.objects.filter(showroom=showroom).order_by('-created_at')
         elif filter_status == 'accepted':
-            orders = Order.objects.filter(accepted=True).order_by('-created_at')
+            orders = Order.objects.filter(showroom=showroom,accepted=True , delivered=False).order_by('-created_at')
         elif filter_status == 'rejected':
-            orders = Order.objects.filter(rejected=True).order_by('-created_at')
+            orders = Order.objects.filter(showroom=showroom,rejected=True).order_by('-created_at')
         elif filter_status == 'delivered':
-            orders = Order.objects.filter(delivered=True , accepted = True).order_by('-created_at')
+            orders = Order.objects.filter(showroom=showroom,delivered=True , accepted = True).order_by('-created_at')
         else:
             orders = Order.objects.none()
         context = {

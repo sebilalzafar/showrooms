@@ -8630,14 +8630,6 @@ button.axil-btn.wishlist-btn:hover:before {
     transition: .5s
 }
 
-.mainmenu>li>a:hover {
-    color: var(--color-black)
-}
-
-.mainmenu>li>a:hover::before {
-    opacity: 1;
-    width: 100%
-}
 
 .mainmenu>li>a.active {
     color: var(--color-black)

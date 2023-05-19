@@ -11,6 +11,9 @@
         font-weight: bold;
     }
     .content{font-size: 15px}
+    .card{
+        height: fit-content !important;
+    }
   
 </style>
     <div class="print_not_show d-flex justify-content-between">
@@ -32,11 +35,12 @@
             <a href="{% url 'reject_order' order_detail.id %}?next={{ request.path|urlencode }}" onclick="return rejectOrder();" class="btn btn-danger">Reject Order</a>
             <a href="{% url 'accept_order' order_detail.id %}?next={{ request.path|urlencode }}" onclick="return acceptOrder();" class="btn btn-warning">Accept Order</a>
             {% endif %}
-            <a onclick="window.print()" type="button" class="btn btn-info">Print Invoice</a>
+            <a  type="button" data-bs-toggle="modal" data-bs-target="#tagsmodal" class="btn btn-info">Print Tags</a>
+            <a onclick="window.print()" type="button" class="btn btn-outline-info">Print Invoice</a>
           </div>
     </div>
 
-<div class="container mt-5 mb-3">
+<div class="show_data_on_print container mt-5 mb-3">
     <div class="row d-flex justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -123,6 +127,64 @@
           <button type="submit" class="btn btn-primary">Confirm and send mail</button>
         </div>
     </form>
+
+      </div>
+    </div>
+</div>
+
+
+
+  <!-- Tags Modal -->
+
+
+
+  <div class="modal modal-xl fade" id="tagsmodal" tabindex="-1" aria-labelledby="tagsmodalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1  class="print_not_show modal-title fs-5" id="tagsmodalLabel">Print Tags</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="show_data_on_print d-flex modal-body">
+            <div class="card w-50">
+                <div class="card-body">
+                  <blockquote class="blockquote blockquote-custom bg-white px-3 pt-4">
+                    <div class="blockquote-custom-icon bg-info shadow-1-strong">
+                      <i class="fa fa-quote-left text-white"></i>
+                    </div>
+                    <p class="mb-0 mt-2 font-italic">From:</p>
+                    <hr>
+                    <p class="mb-0 mt-2 font-italic">
+                      {{order_detail.showroom.showroom_name}} <br> {{order_detail.showroom.address}}
+                    </p>
+                    <footer class="blockquote-footer pt-4 mt-4 border-top">
+                        Today's date: {% now "Y-m-d" %}
+                    </footer>
+                  </blockquote>
+                </div>
+              </div>
+            <div class="ms-3 card w-50">
+                <div class="card-body">
+                  <blockquote class="blockquote blockquote-custom bg-white px-3 pt-4">
+                    <div class="blockquote-custom-icon bg-info shadow-1-strong">
+                      <i class="fa fa-quote-left text-white"></i>
+                    </div>
+                    <p class="mb-0 mt-2 font-italic">To:</p>
+                    <hr>
+                    <p class="mb-0 mt-2 font-italic">
+                    {{order_detail.first_name}} <br>{{order_detail.street_address}} <br>{{order_detail.city}}
+                    </p>
+                    <footer class="blockquote-footer pt-4 mt-4 border-top">
+                        Today's date: {% now "Y-m-d" %}
+                    </footer>
+                  </blockquote>
+                </div>
+              </div>
+        </div>
+        <div class="print_not_show modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button onclick="window.print()" type="button" class="btn btn-primary">Print Tags</button>
+        </div>
 
       </div>
     </div>

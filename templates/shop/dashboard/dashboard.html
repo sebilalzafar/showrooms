@@ -1,0 +1,130 @@
+{% extends 'shop/dashboard/shop_dashboard_base.html' %}
+{% block content %}
+{% load i18n %}
+
+<div class="container">
+
+        <div class="row ">
+            <h3>Orders Statics:</h3>
+            <hr>
+
+            <div class="ag-courses_item">
+                <a href="{% url 'all_orders' %}" class="ag-courses-item_link">
+                    <div class="ag-courses-item_bg"></div>
+
+                    <div class="ag-courses-item_title">
+                        Total Number of Orders:
+                    </div>
+
+                    <div class="ag-courses-item_date-box">
+                        Count:
+                        <span class="ag-courses-item_date">
+                            {{total_orders}}
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="ag-courses_item">
+                <a href="{% url 'all_orders' %}" class="ag-courses-item_link">
+                    <div class="ag-courses-item_bg"></div>
+
+                    <div class="ag-courses-item_title">
+                        Total Orders in this Month:
+                        {% now "F" as current_month %}
+                        {% trans current_month as translated_month %}
+
+                        {{ translated_month }}
+                    </div>
+
+                    <div class="ag-courses-item_date-box">
+                        Count:
+                        <span class="ag-courses-item_date">
+                            {{monthly_orders}}
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="ag-courses_item">
+                <a href="{% url 'all_orders' %}" class="ag-courses-item_link">
+                    <div class="ag-courses-item_bg"></div>
+
+                    <div class="ag-courses-item_title">
+                        Pending Orders:
+                    </div>
+
+                    <div class="ag-courses-item_date-box">
+                        Count:
+                        <span class="ag-courses-item_date">
+                            {{pending_orders}}
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row">
+            <h3>Products Statics:</h3>
+            <hr>
+            <div class="ag-courses_item">
+                <a href="{% url 'all_products' %}" class="ag-courses-item_link">
+                    <div class="ag-courses-item_bg"></div>
+
+                    <div class="ag-courses-item_title">
+                        Total Number of Products:
+                    </div>
+
+                    <div class="ag-courses-item_date-box">
+                        Count:
+                        <span class="ag-courses-item_date">
+                            {{total_products}}
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="ag-courses_item">
+                <a href="{% url 'all_products' %}" class="ag-courses-item_link">
+                    <div class="ag-courses-item_bg"></div>
+
+                    <div class="ag-courses-item_title">
+                        Products Added in this Month:
+                        {% now "F" as current_month %}
+                        {% trans current_month as translated_month %}
+
+                        {{ translated_month }}
+                    </div>
+
+                    <div class="ag-courses-item_date-box">
+                        Count:
+                        <span class="ag-courses-item_date">
+                            {{monthly_products}}
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="ag-courses_item">
+                <a href="{% url 'all_products' %}" class="ag-courses-item_link">
+                    <div class="ag-courses-item_bg"></div>
+
+                    <div class="ag-courses-item_title">
+                        Products added in this Year :
+                        {% now "Y" as current_year %}
+                        {{ current_year }}
+                    </div>
+                    <div class="ag-courses-item_date-box">
+                        Count:
+                        <span class="ag-courses-item_date">
+                            {{yearly_products}}
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+</div>
+
+
+{% endblock content %}

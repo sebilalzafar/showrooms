@@ -14,6 +14,10 @@ from django.core.mail import send_mail as mail
 from django.conf import settings as conf_settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from datetime import datetime
+
+
+
 
 def home(request):
     if request.method == 'POST':
@@ -347,6 +351,41 @@ def shop_dashboard_signin(request):
 def shop_dashboard(request):
     if request.user.showroom_owner == True:
         showroom = Showrooms.objects.get(id=request.user.id)
+        
+        current_month = datetime.now().month
+        current_year = datetime.now().year
+        #Total products filters
+        total_products = Product.objects.filter(showroom = showroom).count()
+        monthly_products = Product.objects.filter(showroom = showroom ,created_at__month=current_month).count()
+        yearly_products = Product.objects.filter(showroom = showroom , created_at__year=current_year).count()
+        
+        #Total orders Filters
+        total_orders = Order.objects.filter(showroom=showroom).count()
+        monthly_orders = Order.objects.filter(showroom = showroom ,created_at__month=current_month).count()
+        pending_orders = Order.objects.filter(showroom = showroom , accepted =True, delivered = False).count()
+        
+        context = {
+            "showroom": showroom,
+            "total_products": total_products,
+            "monthly_products": monthly_products,
+            "yearly_products": yearly_products,
+            
+            "total_orders": total_orders,
+            "monthly_orders": monthly_orders,
+            "pending_orders": pending_orders,
+        }
+        return render(request , "shop/dashboard/dashboard.html" ,context)
+    else:
+        return redirect("shop_dashboard_signin")
+
+
+
+
+@cache_control(no_cache=True, must_revalidate=True , no_store=True)
+@login_required(login_url='shop_dashboard_signin')
+def all_products(request):
+    if request.user.showroom_owner == True:
+        showroom = Showrooms.objects.get(id=request.user.id)
         products = Product.objects.filter(showroom = showroom)
         context = {
             "showroom": showroom,
@@ -370,7 +409,7 @@ def add_product(request):
                 fm.showroom = showroom
                 fm.save()
                 messages.success(request,"Product Added Succesfully.")
-                return redirect('shop_dashboard')
+                return redirect('all_products')
         else:
             form = ProductForm(request.user)
             context = {
@@ -398,7 +437,7 @@ def update_product(request , id):
                 fm.showroom = showroom
                 fm.save()
                 messages.success(request,"Product Updated Succesfully.")
-                return redirect('shop_dashboard')
+                return redirect('all_products')
         else:
             form = ProductForm( request.user,instance=product)
             context = {
@@ -420,7 +459,7 @@ def delete_product(request , id):
             product.delete()
             messages.success(request,"Product deleted Succesfully.")
             
-            return redirect("shop_dashboard")
+            return redirect("all_products")
 
    
         context = {

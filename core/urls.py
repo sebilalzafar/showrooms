@@ -19,7 +19,8 @@ urlpatterns = [
     path('settings', views.settings, name="settings"),
     
     
-    path('shop-dashboard/add_product', views.add_product, name="add_product"),
+    path('shop-dashboard/add-product', views.add_product, name="add_product"),
+    path('shop-dashboard/all-products', views.all_products, name="all_products"),
     path('shop-dashboard/update_product/<str:id>', views.update_product, name="update_product"),
     path('shop-dashboard/delete_product/<str:id>', views.delete_product, name="delete_product"),
     

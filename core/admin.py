@@ -4,11 +4,13 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext as _
 from .models import User
+from django.contrib.auth.forms import AdminPasswordChangeForm
+
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
+    
     """Define admin model for custom User model with no email field."""
-
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': ('id','first_name', 'last_name',)}),
@@ -26,7 +28,11 @@ class UserAdmin(DjangoUserAdmin):
     search_fields = ('email', 'first_name', 'last_name',)
     ordering = ('email',)
     
-    
+  
+
+
+
+  
 
 @admin.register(Showrooms)
 class UserAdmin(DjangoUserAdmin):
@@ -50,6 +56,11 @@ class UserAdmin(DjangoUserAdmin):
     search_fields = ('email', 'first_name', 'last_name','showroom_type','showroom_name')
     ordering = ('email',)
     
+  
+
+
+
+
     
 admin.site.register(Categories)
 admin.site.register(Callback)
