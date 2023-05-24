@@ -1,0 +1,106 @@
+{% extends 'shop/dashboard/shop_dashboard_base.html' %}
+{% block content %}
+{% load mathfilters %} <!-- Add this line -->
+<div class="d-flex justify-content-between">
+    <h3>Transactions details of delivered Orders.</h3>
+    <div class="filter ">
+        <label>Filter by status:</label>
+        <form method="GET">
+
+            <select id="status-filter" name="status" class="form-select form-select-sm " onchange="this.form.submit()">
+                <option value="all" {% if filter_status == 'all' %}selected{% endif %}>All Orders</option>
+                <option value="recieved" {% if filter_status == 'recieved' %}selected{% endif %}>Recieved</option>
+                <option value="pending" {% if filter_status == 'pending' %}selected{% endif %}>Pending Orders</option>
+            </select>
+        </form>
+    </div>
+</div>
+<hr>
+<div class="row">
+
+    <div style="border-right: 1px solid bisque;"  class="col-7">
+        <div class=" table-responsive">
+            <table id="order-table" class="table table-dark table-hover table-lg table-bordered border-danger">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Transaction ID#</th>
+                        <th scope="col">Total Amount without shipping</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in transaction %}
+                    <tr>
+                        <td class="text-uppercase">{{forloop.counter}}</td>
+                        <td class="text-uppercase">{{i.transaction_id}}</td>
+                        <td class="text-uppercase">Rs {{i.amount}}</td>
+                        <td class="text-uppercase">{% if i.status == "RECIEVED" %} <span class="badge bg-success text-wrap">RECIEVED</span> {% else %}<span class="badge bg-danger text-wrap"> PENDING </span> {% endif %}</td>
+                        <td class="text-uppercase">{% if i.status == "PENDING" %}<a href="{% url 'make_paid' i.transaction_id %}?next={{ request.path|urlencode }}" onclick="return makePaid();" class="btn btn-sm btn-primary">Recieved</a>{% else %}<a title="Already Recieved" class="btn btn-sm btn-primary">Recieved</a>{% endif %}</td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>Nothing Order delivered</tr>
+
+                    {% endfor %}
+
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-5">
+
+       
+
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+
+       
+
+
+    </div>
+
+
+
+
+
+    <script>
+        function makePaid() {
+            return confirm("Are you sure you want to make paid this order?Your can't able to change this.");
+        }
+
+    </script>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+
+
+    <script>
+        window.onload = function() {
+        
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title: {
+                text: "Total Sale and Pendings"
+            },
+            data: [{
+                type: "pie",
+                startAngle: 240,
+                yValueFormatString: "##0",
+                indexLabel: "{label} {y}",
+                dataPoints: [
+                    {y: {{total_transaction_amount}}, label: "Total Sale"},
+                    {y: {{pending_transaction_amount}}, label: "Pendings"},
+                    {y: {{recieved_transaction_amount}}, label: "Recieved"},
+                ]
+            }]
+        });
+        chart.render();
+        
+        }
+        </script>
+    {% endblock content %}

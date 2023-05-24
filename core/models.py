@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser,BaseUserManager
 import uuid
 from django.utils.translation import gettext as _
 from datetime import datetime
+import random
 
 # Create your models here.
 
@@ -201,3 +202,23 @@ class OrderItem(models.Model):
     
     
     
+
+class Transaction(models.Model):
+    STATUS_CHOICES = (
+        ('RECIEVED', 'Recieved'),
+        ('PENDING', 'Pending'),
+    )
+    transaction_id = models.CharField(max_length=10, unique=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    amount =models.PositiveIntegerField(blank=True,null=True)
+    shipping_amount = models.PositiveIntegerField(blank=True,null=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='PENDING')
+    # Add more fields as per your requirements
+
+    def save(self, *args, **kwargs):
+        if not self.transaction_id:
+            self.transaction_id = self.generate_transaction_id()
+        super().save(*args, **kwargs)
+
+    def generate_transaction_id(self):
+        return str(random.randint(1000000000, 9999999999))

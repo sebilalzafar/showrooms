@@ -83,6 +83,9 @@ def check_email(request):
 
 
 
+
+
+
 def showrooms(request):
     title = request.POST.get('title')
     a = Showrooms.objects.filter(showroom_type=title)
@@ -377,6 +380,89 @@ def shop_dashboard(request):
         return render(request , "shop/dashboard/dashboard.html" ,context)
     else:
         return redirect("shop_dashboard_signin")
+
+
+
+@cache_control(no_cache=True, must_revalidate=True , no_store=True)
+@login_required(login_url='shop_dashboard_signin')
+def all_companies(request):
+    if request.user.showroom_owner == True:
+        showroom = Showrooms.objects.get(id=request.user.id)
+        all_companies = Company_name.objects.filter(showroom_type = showroom.showroom_type)
+        if request.method == "POST":
+            showroom_type = request.POST.get('showroom_type')
+            company_name = request.POST.get('company_name')
+            
+            if Company_name.objects.filter(name__iexact=company_name).exists():
+                messages.error(request,"Company name already exists.")
+                return redirect(request.path)
+                
+            else:
+                Company_name.objects.create(showroom_type = showroom_type, name = company_name)
+                messages.success(request,"Company name added.")
+                return redirect(request.path)
+                
+        context = {
+            "showroom": showroom,
+            "all_companies": all_companies,
+
+        }
+        return render(request , "shop/dashboard/companies.html" ,context)
+    else:
+        return redirect("shop_dashboard_signin")
+
+
+
+def check_company(request):
+    company_name = request.POST.get('company_name').lower()
+
+    if Company_name.objects.filter(name__iexact=company_name).exists():
+        return HttpResponse('<div style="color: red"> This company name already exists. </div>')
+    else:
+        return HttpResponse('<div style="color: green"> You can add this now.</div>')
+
+
+
+
+
+@cache_control(no_cache=True, must_revalidate=True , no_store=True)
+@login_required(login_url='shop_dashboard_signin')
+def all_categories(request):
+    if request.user.showroom_owner == True:
+        showroom = Showrooms.objects.get(id=request.user.id)
+        all_categories = Categories.objects.filter(showroom_type = showroom.showroom_type)
+        if request.method == "POST":
+            showroom_type = request.POST.get('showroom_type')
+            category_name = request.POST.get('category_name')
+            
+            if Categories.objects.filter(name__iexact=category_name).exists():
+                messages.error(request,"Category already exists.")
+                return redirect(request.path)
+                
+            else:
+                Categories.objects.create(showroom_type = showroom_type, name = category_name)
+                messages.success(request,"Category added.")
+                return redirect(request.path)
+                
+        context = {
+            "showroom": showroom,
+            "all_categories": all_categories,
+
+        }
+        return render(request , "shop/dashboard/categories.html" ,context)
+    else:
+        return redirect("shop_dashboard_signin")
+
+
+
+def check_category(request):
+    category_name = request.POST.get('category_name').lower()
+
+    if Categories.objects.filter(name__iexact=category_name).exists():
+        return HttpResponse('<div style="color: red"> This category already exists. </div>')
+    else:
+        return HttpResponse('<div style="color: green"> You can add this category.</div>')
+
 
 
 

@@ -17,6 +17,10 @@ urlpatterns = [
     path('dashboard_logout', views.dashboard_logout, name="dashboard_logout"),
     path('shop-dashboard', views.shop_dashboard, name="shop_dashboard"),
     path('settings', views.settings, name="settings"),
+    path('all-companies', views.all_companies, name="all_companies"),
+    path('check_company', views.check_company , name='check_company'),
+    path('all-categories', views.all_categories, name="all_categories"),
+    path('check_category', views.check_category , name='check_category'),
     
     
     path('shop-dashboard/add-product', views.add_product, name="add_product"),

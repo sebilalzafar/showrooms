@@ -54,10 +54,10 @@ def invoice_order(request,order_id):
             settings = showroom_settings.objects.get(showroom=showroom)
         except:
             settings=None
-        print(settings)
         products = Product.objects.filter(showroom = showroom)
         order_detail = Order.objects.get(id=order_id)
         order_items = OrderItem.objects.filter(order=order_detail)
+        transaction = Transaction.objects.get(order=order_detail)
         total = sum(item.product.new_price * item.quantity for item in order_items)
         context = {
             "showroom": showroom,
@@ -66,10 +66,12 @@ def invoice_order(request,order_id):
             "order_items": order_items,
             "total": total,
             "settings": settings,
+            "transaction": transaction,
         }
         return render(request , "shop/dashboard/invoice.html" , context)
     else:
         return redirect("shop_dashboard_signin")
+
     
 
 
@@ -119,9 +121,18 @@ def accept_order(request, order_id):
 def deliver_order(request, order_id):
     a= request.GET.get('next','')
     order_detail = Order.objects.get(id=order_id)
+    transaction = Transaction.objects.get(order=order_detail)
     if request.method == "POST":
-        email_message = request.POST.get("email_message",) 
+        email_message = request.POST.get("email_message") 
+        total_payable = request.POST.get("total_payable") 
+        shipping_amount = request.POST.get("shipping_amount") 
+        transaction.amount = total_payable
+        transaction.shipping_amount = shipping_amount
+        transaction.save()
+        
         print(email_message)
+        print(total_payable)
+        print(shipping_amount)
         order_detail.delivered = True
         order_detail.save()
     
@@ -139,4 +150,53 @@ def deliver_order(request, order_id):
 
 
     
+@cache_control(no_cache=True, must_revalidate=True , no_store=True)
+@login_required(login_url='shop_dashboard_signin')
+def transaction_details(request):
+    showroom = Showrooms.objects.get(id=request.user.id)
+    if request.user.showroom_owner == True:
+        try:
+            settings = showroom_settings.objects.get(showroom=showroom)
+        except:
+            settings=None
+        filter_status = request.GET.get('status', 'all')
+        if filter_status == 'all':
+            transaction = Transaction.objects.filter(order__showroom = showroom ,  order__delivered = True)
+        elif filter_status == 'recieved':
+            transaction = Transaction.objects.filter(order__showroom = showroom , status="RECIEVED",order__delivered =True)
+        elif filter_status == 'pending':
+            transaction = Transaction.objects.filter(order__showroom = showroom , status="PENDING",order__delivered =True)
+        else:
+            transaction = Transaction.objects.none()
+        
+        
+        total_transaction_amount = Transaction.objects.filter(order__showroom = showroom , order__delivered =True)
+        total_transaction_amount = sum(item.amount for item in total_transaction_amount)
+        pending_transaction_amount = Transaction.objects.filter(order__showroom = showroom , status="PENDING",order__delivered =True)
+        pending_transaction_amount = sum(item.amount for item in pending_transaction_amount)
+        recieved_transaction_amount = Transaction.objects.filter(order__showroom = showroom , status="RECIEVED",order__delivered =True)
+        recieved_transaction_amount = sum(item.amount for item in recieved_transaction_amount)
+
+        context = {
+            "showroom": showroom,
+            "settings": settings,
+            "transaction": transaction,
+            "filter_status": filter_status,
+            "pending_transaction_amount": pending_transaction_amount,
+            "recieved_transaction_amount": recieved_transaction_amount,
+            "total_transaction_amount": total_transaction_amount,
+            
+        }
+        return render(request , "shop/dashboard/transactions_reports.html" , context)
+    else:
+        return redirect("shop_dashboard_signin")
+    
+
+def make_paid(request,transaction_id):
+    a= request.GET.get('next','')
+    transaction = Transaction.objects.get(transaction_id=transaction_id)
+    transaction.status = "RECIEVED"
+    transaction.save()
+    messages.success(request,"Transaction updated successfully")
+    return HttpResponseRedirect(a)
     

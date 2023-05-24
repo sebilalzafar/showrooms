@@ -1,0 +1,65 @@
+{% extends 'shop/dashboard/shop_dashboard_base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-between">
+    <h3>Companies List</h3>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addcompanymodal">Add Company +</button>
+</div>
+
+<div class="row" style="margin:0;padding:0;">
+    <div class="col-md">
+        <table class="table">
+            <thead colspan="2" >
+                <tr class="fw-bold">    
+                    <td>Name</td>
+                    <td>Type</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for i in all_companies %}
+                <tr>
+                    <td>{{i.name}}</td>
+                    <td>{{i.showroom_type}}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="addcompanymodal" tabindex="-1" aria-labelledby="addcompanymodalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addcompanymodalLabel">Delivery Confirmation</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" >
+            {% csrf_token %}
+            <label class="form-label">Showroom Type:</label>
+            <input disabled value="{{showroom.showroom_type}}" required class="form-control" aria-describedby="Help">
+            <input hidden value="{{showroom.showroom_type}}" required name="showroom_type" class="form-control" aria-describedby="Help">
+            <div id="Help" class="form-text">This will be taken automatically.</div>
+            <label class="form-label">Company Name:</label>
+            <input type="text" required name="company_name" class="form-control" aria-describedby="Help" hx-post="{% url 'check_company' %}"
+            hx-target="#company-check" hx-trigger="keyup">
+            <div id="company-check"></div>
+
+            <div id="Help" class="form-text">Please give company name.</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Confirm and Add</button>
+        </div>
+        </form>
+  
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

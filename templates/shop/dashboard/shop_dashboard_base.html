@@ -36,7 +36,7 @@
   <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="{% url 'dashboard_logout' %}">Sign out</a>
+      <a class="nav-link px-3" onclick="return signout();" href="{% url 'dashboard_logout' %}">Sign out</a>
     </div>
   </div>
 </header>
@@ -46,51 +46,53 @@
     <nav id="sidebarMenu" class="print_not_show col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse">
       <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'shop_dashboard' %}">
+          <li class="nav-item active">
+            <a class="nav-link {% if request.resolver_match.view_name == 'shop_dashboard' %} active{% endif %} "  aria-current="page" href="{% url 'shop_dashboard' %}">
               <span data-feather="home" class="align-text-bottom"></span>
               Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " aria-current="page" href="{% url 'all_products' %}">
+            <a class="nav-link {% if request.resolver_match.view_name == 'all_orders' %} active{% endif %}" href="{% url 'all_orders' %}">
+              <span data-feather="file" class="align-text-bottom"></span>
+              Orders
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.view_name == 'transaction_details' %} active{% endif %}" href="{% url 'transaction_details' %}">
+              <span data-feather="file" class="align-text-bottom"></span>
+              Transactions Detail
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.view_name == 'all_products' %} active{% endif %}" aria-current="page" href="{% url 'all_products' %}">
               <span data-feather="shopping-cart" class="align-text-bottom"></span>
               All Products
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'add_product' %}">
+            <a class="nav-link {% if request.resolver_match.view_name == 'add_product' %} active{% endif %}" href="{% url 'add_product' %}">
               <span data-feather="shopping-cart" class="align-text-bottom"></span>
              Add Products
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'all_orders' %}">
-              <span data-feather="file" class="align-text-bottom"></span>
-              Orders
-            </a>
-          </li>
+          
          
+ 
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="users" class="align-text-bottom"></span>
-              Customers
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {% if request.resolver_match.view_name == 'all_companies' %} active{% endif %}" href="{% url 'all_companies' %}">
               <span data-feather="bar-chart-2" class="align-text-bottom"></span>
               Add Company
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {% if request.resolver_match.view_name == 'all_categories' %} active{% endif %}" href="{% url 'all_categories' %}">
               <span data-feather="bar-chart-2" class="align-text-bottom"></span>
               Add Category
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'settings' %}">
+            <a class="nav-link {% if request.resolver_match.view_name == 'settings' %} active{% endif %}" href="{% url 'settings' %}">
               <span data-feather="bar-chart-2" class="align-text-bottom"></span>
               Shop Configration
             </a>
@@ -120,12 +122,18 @@
     </main>
   </div>
 </div>
+  <script>
+    function signout() {
+      return confirm("Are you sure you want to signout this page?");
+    }
 
+  </script>
 
     <script src="{% static '../assets/dist/js/bootstrap.bundle.min.js' %}"></script>
 
       <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script>
       <script src="{% static 'dashboard.js' %}"></script>
+      <script src="{% static 'js/htmx.js' %}"></script>
   </body>
   {% include 'messages.html' %}
 
