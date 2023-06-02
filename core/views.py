@@ -385,6 +385,19 @@ def shop_dashboard(request):
 
 @cache_control(no_cache=True, must_revalidate=True , no_store=True)
 @login_required(login_url='shop_dashboard_signin')
+def google_analytics(request):
+    if request.user.showroom_owner == True:
+        showroom = Showrooms.objects.get(id=request.user.id)
+        context = {
+            "showroom": showroom,
+        }
+        return render(request , "shop/dashboard/ga.html" ,context)
+    else:
+        return redirect("shop_dashboard_signin")
+
+
+@cache_control(no_cache=True, must_revalidate=True , no_store=True)
+@login_required(login_url='shop_dashboard_signin')
 def all_companies(request):
     if request.user.showroom_owner == True:
         showroom = Showrooms.objects.get(id=request.user.id)

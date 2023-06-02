@@ -16,6 +16,7 @@ urlpatterns = [
     path('shop-dashboard-signin', views.shop_dashboard_signin, name="shop_dashboard_signin"),
     path('dashboard_logout', views.dashboard_logout, name="dashboard_logout"),
     path('shop-dashboard', views.shop_dashboard, name="shop_dashboard"),
+    path('shop-dashboard/analytics', views.google_analytics, name="google_analytics"),
     path('settings', views.settings, name="settings"),
     path('all-companies', views.all_companies, name="all_companies"),
     path('check_company', views.check_company , name='check_company'),

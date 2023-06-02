@@ -76,6 +76,7 @@ class Showrooms(User):
     address = models.CharField( max_length=250)
     since = models.CharField( max_length=50)
     link_360 = models.CharField( max_length=250 , blank=True,null=True)
+    google_analytics_link = models.CharField( max_length=3000 , blank=True,null=True)
     class Meta:
         verbose_name_plural = 'Showrooms'
         
