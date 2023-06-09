@@ -29,9 +29,12 @@ def home(request):
         if user is not None:
             auth_login(request,user)
             messages.success(request,'You are authenticated.')
+            return redirect(request.path)
+            
         else:
             messages.error(request,'Invalid Credentials.')
-            HttpResponseRedirect('/')
+            return redirect(request.path)
+
 
     l = Showrooms.objects.filter(showroom_type = "Lights").count()
     t = Showrooms.objects.filter(showroom_type = "Tiles").count()
@@ -63,13 +66,15 @@ def signup(request):
         password = request.POST.get('password')
         if User.objects.filter(email=email).exists():
             messages.error(request,"Email already exist.Sorry for inconvenience")
-            return redirect('home')
+            return redirect(request.path)
+
         else:
             user = User.objects.create_user(first_name=f_name,last_name=l_name,email=email,password=password)
             user.save()
             auth_login(request,user)
             messages.success(request,'You are authenticated.')
-            return redirect("home")
+            return redirect(request.path)
+
             
           
     return redirect("home")
