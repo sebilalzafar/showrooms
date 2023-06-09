@@ -6,6 +6,7 @@ import uuid
 from django.utils.translation import gettext as _
 from datetime import datetime
 import random
+from django.utils import timezone
 
 # Create your models here.
 
@@ -82,6 +83,14 @@ class Showrooms(User):
         
     def __str__(self):
         return f"{self.showroom_name}({self.showroom_type})"
+
+
+class Node_visitors(models.Model):
+    showroom = models.ForeignKey(Showrooms, on_delete=models.CASCADE, related_name='node_visitors_showrooms')  
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='node_visitors_users')  
+    node = models.CharField( max_length=50,blank=True, null=True)
+    created_at = models.DateTimeField(auto_now=True)
+
 
 
 

@@ -15,6 +15,8 @@ from django.conf import settings as conf_settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from datetime import datetime
+from django.http import JsonResponse
+from django.core import serializers
 
 
 
@@ -380,6 +382,61 @@ def shop_dashboard(request):
         return render(request , "shop/dashboard/dashboard.html" ,context)
     else:
         return redirect("shop_dashboard_signin")
+
+
+
+@cache_control(no_cache=True, must_revalidate=True , no_store=True)
+@login_required(login_url='shop_dashboard_signin')
+def node_info(request):
+    if request.user.showroom_owner == True:
+        showroom = Showrooms.objects.get(id=request.user.id)
+        
+        context = {
+            "showroom": showroom,
+  
+        }
+        return render(request , "shop/dashboard/node_info.html" ,context)
+    else:
+        return redirect("shop_dashboard_signin")
+    
+    
+def node_info_update(request):
+    if request.user.showroom_owner == True:
+        showroom = Showrooms.objects.get(id=request.user.id)
+        all_nodes = Node_visitors.objects.filter(showroom=showroom)
+           # Convert the data to a JSON response
+               # Prepare the data as a list of dictionaries
+        data = [
+            {
+                'user': f"{node.user.first_name} {node.user.last_name}" ,
+                'node': node.node,
+                'link': f"{showroom.link_360}?node={node.node}"
+
+            }
+            for node in all_nodes
+        ]
+        return JsonResponse(data, safe=False)
+    else:
+        return JsonResponse([], safe=False)
+        
+    
+
+
+
+def node_visitor(request):
+    if request.method == "POST":
+        node_id  = request.POST.get("currentNodeID")
+        user_id  = request.POST.get("userID")
+        showroom_id  = request.POST.get("showroomID")
+        node ,created= Node_visitors.objects.get_or_create(showroom=Showrooms.objects.get(id=showroom_id), user=User.objects.get(id=user_id) )
+        node.node = node_id
+        node.save()
+        
+        node_info_update(request)
+        return HttpResponse(status=204)  # 204 No Content
+
+        
+    
 
 
 

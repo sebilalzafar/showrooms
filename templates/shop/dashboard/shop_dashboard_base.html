@@ -58,6 +58,12 @@
               Analytics
             </a>
           </li>
+          <li class="nav-item active">
+            <a class="nav-link {% if request.resolver_match.view_name == 'node_info' %} active{% endif %} "  aria-current="page" href="{% url 'node_info' %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Node Info
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link {% if request.resolver_match.view_name == 'all_orders' %} active{% endif %}" href="{% url 'all_orders' %}">
               <span data-feather="file" class="align-text-bottom"></span>
@@ -134,13 +140,17 @@
     }
 
   </script>
+  <script src="{% static 'js/htmx.js' %}"></script>
 
     <script src="{% static 'assets/dist/js/bootstrap.bundle.min.js' %}"></script>
 
       <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script>
       <script src="{% static 'dashboard.js' %}"></script>
-      <script src="{% static 'js/htmx.js' %}"></script>
   </body>
   {% include 'messages.html' %}
+
+{% block scripts %}
+
+{% endblock scripts %}
 
 </html>

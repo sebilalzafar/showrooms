@@ -30,7 +30,7 @@
         </div>
     
         <hr>
-        <iframe class="w-100" src="{{showroom_data.link_360}}" title="">
+        <iframe id="myIframe" class="w-100" src="{{showroom_data.link_360}}" title="">
         </iframe>
           <hr>
 
@@ -93,6 +93,52 @@
   <script src="{% static 'js/bootstrap.js' %}"></script>
     {% include 'messages.html' %}
     <script src="{% static 'js/htmx.js' %}"></script>
+
+    <script>
+
+
+
+
+      window.addEventListener("message", function(event) {
+        if (event.source === document.getElementById("myIframe").contentWindow) {
+          var currentNodeID = event.data;
+          yourFunction(currentNodeID);
+        }
+      });
+     
+  
+      function yourFunction(currentNodeID) {
+        // Your code to handle the updated currentNodeID
+        console.log("Handling the updated currentNodeID: " + currentNodeID);
+        var userID = "{{ request.user.id }}";
+        var showroomID = "{{ showroom_data.id }}";
+        
+        
+         // Set the values and submit the form
+        var form = document.getElementById("nodeForm");
+        form.querySelector("input[name='currentNodeID']").value = currentNodeID;
+        form.querySelector("input[name='userID']").value = userID;
+        form.querySelector("input[name='showroomID']").value = showroomID;
+        
+        // Prevent the default form submission
+        event.preventDefault();
+        // Make the HTMX request
+        htmx.trigger(form, 'submit');
+
+
+
+      }
+    </script>
+
+
+    <!-- Add a hidden form with HTMX trigger -->
+      <form id="nodeForm" hx-post="{% url 'node_visitor' %}" style="display: none;">\
+        {% csrf_token %}
+        <input type="hidden" name="currentNodeID" >
+        <input type="hidden" name="userID" >
+        <input type="hidden" name="showroomID" >
+      </form>
+
 
 </body>
 

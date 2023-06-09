@@ -1,0 +1,82 @@
+{% extends 'shop/dashboard/shop_dashboard_base.html' %}
+{% block content %}
+<h4>Node Info</h4>
+<hr>
+<div>
+  <table  id="dashboard-table"  class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">User Name</th>
+        <th scope="col">Node</th>
+        <th scope="col">Go Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+  
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  function fetchNodeInfo() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "{% url 'node_info_update' %}");
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+        updateTable(data);
+      } else {
+        console.error('Error fetching node info.');
+      }
+    };
+    xhr.send();
+  }
+  
+  function updateTable(data) {
+    var tableBody = document.getElementById("dashboard-table").getElementsByTagName('tbody')[0];
+  tableBody.innerHTML = ""; // Clear the existing table body
+
+  data.forEach(function (item, index) {
+    var row = document.createElement("tr");
+
+    var numberCell = document.createElement("th");
+    numberCell.setAttribute("scope", "row");
+    numberCell.textContent = index + 1;
+    row.appendChild(numberCell);
+
+    var userNameCell = document.createElement("td");
+    userNameCell.textContent = item.user;
+    row.appendChild(userNameCell);
+
+    var nodeCell = document.createElement("td");
+    nodeCell.textContent = item.node;
+    row.appendChild(nodeCell);
+
+    var goLinkCell = document.createElement("td");
+    var goLink = document.createElement("a");
+    goLink.setAttribute("href", item.link);
+    goLink.setAttribute("target", "_blank");
+    goLink.textContent = "Go Link";
+    goLinkCell.appendChild(goLink);
+    row.appendChild(goLinkCell);
+
+    tableBody.appendChild(row);
+  });
+
+  }
+  
+  // Fetch node info on page load
+  fetchNodeInfo();
+  
+  // Refresh node info every 1 seconds
+  setInterval(fetchNodeInfo, 1000);
+  
+</script>
+ 
+{% endblock scripts %}

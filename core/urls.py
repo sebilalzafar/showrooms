@@ -10,12 +10,16 @@ urlpatterns = [
     path('360-and-shop/360/<str:pk>', views.link_360_and_shop , name='360_and_shop'),
     path('callback', views.callback, name="callback"),
     path('360-and-shop/shop/<pk>/<id>', views.shop, name="shop"),
+    path('node_visitor', views.node_visitor, name="node_visitor"),
+    
     
     #dashboard
     
     path('shop-dashboard-signin', views.shop_dashboard_signin, name="shop_dashboard_signin"),
     path('dashboard_logout', views.dashboard_logout, name="dashboard_logout"),
     path('shop-dashboard', views.shop_dashboard, name="shop_dashboard"),
+    path('shop-dashboard/node-info', views.node_info, name="node_info"),
+    path('shop-dashboard/node-info-update', views.node_info_update, name="node_info_update"),
     path('shop-dashboard/analytics', views.google_analytics, name="google_analytics"),
     path('settings', views.settings, name="settings"),
     path('all-companies', views.all_companies, name="all_companies"),
