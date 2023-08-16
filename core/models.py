@@ -50,6 +50,7 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
     showroom_owner = models.BooleanField(default=False)
+    sale_man = models.BooleanField(default=False)
 
 
     USERNAME_FIELD = 'email'

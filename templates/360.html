@@ -21,7 +21,13 @@
             <button data-label="Register" class="rainbow-hover" data-bs-toggle="modal" data-bs-target="#callbackmodal">
                 <span class="sp">Call Back</span>
               </button>
-               <a href="{% url 'shop' showroom_data.showroom_type showroom_data.id  %}" class=" btn_360">
+               <a
+               {% if request.user.is_authenticated %}
+               href="{% url 'shop' showroom_data.showroom_type showroom_data.id  %}"
+               {% else %}
+               data-bs-toggle="modal" data-bs-target="#loginmodal"
+               {% endif %}
+               class=" btn_360">
                 Shop Now
              </a>
              
@@ -37,6 +43,77 @@
     </div>
 
 
+
+<!-- signin Modal -->
+<div class="modal fade" id="loginmodal" tabindex="-1" aria-labelledby="loginmodalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark">
+      <div class="modal-body">
+        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="myform bg-dark">
+          <h1 class="text-center">Login</h1>
+          <form class="p-2" autocomplete="off" method="POST">
+            {% csrf_token %}
+            <div class="mb-3 mt-4">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" name="password" class="form-control">
+            </div>
+            <button type="submit" class="btn border border-light btn-dark w-100 mt-3 mb-3">LOGIN</button>
+            <p data-bs-toggle="modal" data-bs-target="#signupmodal" class="" style="cursor: pointer;">Not a member? <a
+                class="text-primary">Signup now</a></p>
+            <p  class="" style="cursor: pointer;">Showroom Owner? <a href="{% url 'shop_dashboard_signin' %}"
+                class="text-primary">Login</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- signup Modal -->
+<div class="modal fade" id="signupmodal" tabindex="-1" aria-labelledby="signupmodalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark">
+      <div class="modal-body">
+        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="myform bg-dark">
+
+          <h1 class="text-center">Signup</h1>
+          <form class="p-2" action="signup" method="POST" autocomplete="off">
+            {% csrf_token %}
+            <div class="mb-3 mt-4">
+              <label for="exampleInputEmail1" class="form-label">First Name</label>
+              <input type="text" class="form-control" name="first_name" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 mt-4">
+              <label for="exampleInputEmail1" class="form-label">Last Name</label>
+              <input type="text" class="form-control" name="last_name" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 mt-4">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" name="email" type="text" hx-post="{% url 'check_email' %}"
+                hx-target="#username-check" hx-trigger="keyup">
+              <div id="username-check"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" name="password" class="form-control">
+            </div>
+            <button type="submit" class="btn border border-light btn-dark w-100 mt-3 mb-3">SIGNUP</button>
+            <p data-bs-toggle="modal" data-bs-target="#loginmodal" class="" style="cursor: pointer;">Already have
+              account? <a class="text-primary">Signin now</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!--call back Modal -->
 <div class="modal fade" id="callbackmodal" tabindex="-1" aria-labelledby="callbackmodalLabel" aria-hidden="true">

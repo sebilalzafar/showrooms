@@ -1,4 +1,4 @@
-{% if request.user.is_authenticated %}
+{% if request.user.is_superuser or request.user.is_superuser.saleman %}
 <div class="modal-header ">
     <h1 class="modal-title fs-5 text-uppercase " id="listmodalLabel">List of {{title}} showrooms</h1>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -29,5 +29,5 @@
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
   </div>
 {% else %}
-<h3 class="p-3">Signin first please<br>Sorry for inconvenience.</h3>
+<h3 class="p-3">Restricted!<br>Sales Department Only</h3>
 {% endif %}

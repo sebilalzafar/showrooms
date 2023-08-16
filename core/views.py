@@ -77,7 +77,7 @@ def signup(request):
 
             
           
-    return redirect("home")
+    return redirect(request.path)
 
 
 def check_email(request):
@@ -103,10 +103,20 @@ def showrooms(request):
     return render(request,"partials/showroom_card.html",context)
 
 
-@cache_control(no_cache=True, must_revalidate=True , no_store=True)
-@login_required(login_url='home')
 def link_360_and_shop(request , pk):
     showroom_data = Showrooms.objects.get(id=pk)
+    if request.method == 'POST':
+        email=request.POST.get('email')
+        password=request.POST.get('password')
+        user=authenticate(request,email=email,password=password,)
+        if user is not None:
+            auth_login(request,user)
+            messages.success(request,'You are authenticated.')
+            return redirect(request.path)
+            
+        else:
+            messages.error(request,'Invalid Credentials.')
+            return redirect(request.path)
     context={
         'showroom_data':showroom_data,
     }
