@@ -81,12 +81,28 @@ WSGI_APPLICATION = 'showrooms.wsgi.application'
 
 
 # Database configuration
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'mysql.connector.django',
+#        'NAME': 'all_showrooms',
+#        'USER': 'root',
+#        'PASSWORD': '',
+#        'HOST':'localhost',
+#        'PORT':'3306',
+#        'OPTIONS': {
+#          'autocommit': True,
+
+#        },
+#    }
+#}
+
+#live
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': 'all_showrooms',
-        'USER': 'root',
-        'PASSWORD': '',
+        'NAME': 'pepintlc_all_showrooms',
+        'USER': 'pepintlc_all_showrooms',
+        'PASSWORD': 'Ug.MHLC-e}*^',
         'HOST':'localhost',
         'PORT':'3306',
         'OPTIONS': {
