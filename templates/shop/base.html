@@ -15,6 +15,7 @@
     <!-- CSS
     ============================================ -->
 
+    {% block head %}{% endblock head %}
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'shop/assets/css/vendor/font-awesome.css' %}" />
@@ -88,8 +89,15 @@
                             </li>
                             <li class="shopping-cart">
                                 <a href="{% url 'shop_cart' showroom.id %}" class="cart-dropdown-btn">
-                                    {% comment %}<span class="cart-count">{{cart_count}}</span>{% endcomment %}
+                                    <span id="cart-count" class="cart-count">{{cart_item_count}}</span>
                                     <i class="flaticon-shopping-cart"></i>
+                                </a>
+                            </li>
+                            <li class="shopping-cart">
+                                <a onclick="return confirmLogout();" href="{% url 'user_logout' showroom.id %}" >
+                                    <img  width="35px" src="{% static 'shop/assets/images/shutdown.png' %}"
+                                    alt="Play Store" />
+
                                 </a>
                             </li>
 
@@ -270,6 +278,19 @@
     <script src="{% static 'shop/assets/js/vendor/waypoints.min.js' %}"></script>
     <script src="{% static 'shop/assets/js/main.js' %}"></script>
     <script src="{% static 'js/htmx.js' %}"></script>
+    
+    
+    <script>
+
+        function confirmLogout(){
+            return confirm("Are you sure you want to log out?");
+        }
+    </script>
+
+{% block scripts %}
+
+
+{% endblock scripts %}
 
 </body>
 

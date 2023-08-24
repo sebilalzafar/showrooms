@@ -1,8 +1,13 @@
 {% extends 'shop/base.html' %}
+
 {% load static %}
+
 {% block title %}<title>All in One || Shop</title>{% endblock title %}
 
+{% block head %}
 
+
+{% endblock head %}
 
 {% block content %}
 <main class="main-wrapper">
@@ -12,31 +17,36 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="axil-shop-top">
-                        <div class="row">
-                            <div class="col-lg-9">
-                                <div class="category-select">
-                                    <!-- Start Single Select  -->
-                                    <select class="single-select">
-                                        <option>Categories</option>
-                                        {% for i in categories %}
-                                        <option>{{i.name}}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <!-- End Single Select  -->
+                        <form method="GET">
+                            <div class="row">
+
+                                <div class="col-lg-9">
+                                    <div class="category-select">
+                                        <!-- Start Single Select  -->
+                                        <select name="category" class="single-select" onchange="this.form.submit()">
+                                            <option value="all" {% if filter_category == "all" %}selected{% endif %} >All Categories</option>
+                                            {% for i in categories %}
+                                            <option value="{{i.name}}" {% if filter_category == i.name|stringformat:'s' %}selected{% endif %}>{{i.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <!-- End Single Select  -->
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="category-select mt_md--10 mt_sm--10 justify-content-lg-end">
-                                    <!-- Start Single Select  -->
-                                    <select class="single-select">
-                                        <option selected>Sort by All</option>
-                                        <option>Sort by Imported</option>
-                                        <option>Sort by Local</option>
-                                    </select>
-                                    <!-- End Single Select  -->
+                                <div class="col-lg-3">
+                                    <div class="category-select mt_md--10 mt_sm--10 justify-content-lg-end">
+                                        <!-- Start Single Select  -->
+                                        <select class="single-select" name="sort" onchange="this.form.submit()">
+                                            <option value="all" {% if filter_sort == "all" %}selected{% endif %}>Sort by All</option>
+                                            <option value="Imported" {% if filter_sort == "Imported" %}selected{% endif %}>Imported</option>
+                                            <option value="Local" {% if filter_sort == "Local" %}selected{% endif %}>Local</option>
+                                        </select>
+                                        <!-- End Single Select  -->
+
+                                    </div>
                                 </div>
+                                
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -47,7 +57,7 @@
                         <div class="thumbnail">
                             <a style="cursor: pointer" data-bs-toggle="modal"
                                 data-bs-target="#quick-view-modal-{{forloop.counter}}">
-                                <img src="{{i.image.url}}" alt="Product Images" />
+                                <img src="{{i.image.url}}" style="height:230px; object-fit:contain;" alt="Product Images" />
                             </a>
                             <div class="label-block label-right">
                                 <div class="product-badget">{{i.discount_price}}</div>
@@ -71,7 +81,7 @@
                         </div>
                         <div class="product-content">
                             <div class="inner">
-                                <h5 class="title">{{i.title}}</h5>
+                                <h5 class="title">{{i.title|upper}}</h5>
                                 <div class="product-price-variant">
                                     <span class="price current-price">{{i.new_price}}</span>
                                     <span class="price old-price">{{i.old_price}}</span>
@@ -101,16 +111,18 @@
                                                     <div
                                                         class="single-product-thumbnail axil-product thumbnail-badge zoom-gallery">
                                                         <div class="thumbnail">
-                                                            <img src="{{ i.image.url }}" alt="Product Images" />
+
+                                                                <img  src="{{i.image.url}}"  />
+                                                                
                                                             <div class="label-block label-right">
                                                                 <div class="product-badget">
                                                                     {{i.discount_price}}
                                                                 </div>
                                                             </div>
                                                             <div class="product-quick-view position-view">
-                                                                <a href="{{i.image.url}}" class="popup-zoom">
-                                                                    <i class="far fa-search-plus"></i>
-                                                                </a>
+                                                                    <a href="{{i.image.url}}" class="popup-zoom">
+                                                                        <i class="far fa-search-plus"></i>
+                                                                    </a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -120,10 +132,9 @@
                                         <div class="col-lg-5 mb--40">
                                             <div class="single-product-content">
                                                 <div class="inner">
-                                                    <h3 class="product-title">{{i.title}}</h3>
+                                                    <h3 class="product-title">{{i.title|upper}}</h3>
                                                     <span class="price-amount">{{i.new_price}}</span>
-                                                    <span
-                                                        class="text-decoration-line-through">{{i.old_price}}</span>
+                                                    <span class="text-decoration-line-through">{{i.old_price}}</span>
                                                     <ul class="product-meta">
                                                         <li>
                                                             <i class="fal fa-check"></i>Product Number:
@@ -131,18 +142,66 @@
                                                         </li>
                                                         <li>
                                                             <i class="fal fa-check"></i>Company:
-                                                            {{i.category.name}}
+                                                            {{i.company_name.name}}
                                                         </li>
                                                         <li>
                                                             <i class="fal fa-check"></i>Category:
-                                                            {{i.company_name.name}}
+                                                            {{i.category.name}}
+
                                                         </li>
                                                         <li>
                                                             <i class="fal fa-check"></i>{{i.imported_or_local}}
                                                         </li>
                                                         <li>
-                                                            <i
-                                                                class="fal fa-check"></i>Description:{{i.description}}
+                                                            <i class="fal fa-check"></i>{{i.unit_or_sqm}}
+                                                        </li>
+
+                                                    </ul>
+                                                    <ul>
+                                                        <li>
+
+                                                            <div class="accordion accordion-flush pb-3"
+                                                                id="accordionFlushExample">
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header">
+                                                                        <button class=" accordion-button  collapsed"
+                                                                            type="button" data-bs-toggle="collapse"
+                                                                            data-bs-target="#flush-collapseOne"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="flush-collapseOne">
+                                                                            Description
+                                                                        </button>
+                                                                    </h2>
+                                                                    <div id="flush-collapseOne"
+                                                                        class="accordion-collapse collapse"
+                                                                        data-bs-parent="#accordionFlushExample">
+                                                                        <div class=" accordion-body">
+                                                                            {{i.description|safe}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                {% for field in i.custom_fields %}
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header">
+                                                                        <button class=" accordion-button collapsed"
+                                                                            type="button" data-bs-toggle="collapse"
+                                                                            data-bs-target="#flush-collapseOne-{{forloop.counter}}"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="flush-collapseOne-{{forloop.counter}}">
+                                                                            {{field.title}}
+                                                                        </button>
+                                                                    </h2>
+                                                                    <div id="flush-collapseOne-{{forloop.counter}}"
+                                                                        class="accordion-collapse collapse"
+                                                                        data-bs-parent="#accordionFlushExample-{{forloop.counter}}">
+                                                                        <div
+                                                                            class="p-3 accordion-body-{{forloop.counter}}">
+                                                                            {{field.detail}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% endfor %}
                                                         </li>
                                                     </ul>
 
@@ -163,9 +222,9 @@
                                                                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                                                                     hx-post="{% url 'add_to_cart' i.pk showroom.id %}?next={{ request.path|urlencode }}"
                                                                     class="axil-btn btn-bg-primary">Add to Cart</a>
-                                                                    <span></span>
+                                                                <span></span>
                                                             </li>
-                                                       
+
                                                         </ul>
                                                         <!-- End Product Action  -->
                                                     </div>
@@ -197,3 +256,8 @@
 
 
 {% endblock content %}
+
+
+{% block scripts %}
+
+{% endblock scripts %}

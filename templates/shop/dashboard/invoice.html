@@ -41,8 +41,9 @@
     <a href="{% url 'accept_order' order_detail.id %}?next={{ request.path|urlencode }}" onclick="return acceptOrder();"
       class="btn btn-warning">Accept Order</a>
     {% endif %}
+    <a onclick="window.print()" type="button" class="btn btn-info">Print Invoice</a>
+    <a type="button" data-bs-toggle="modal" data-bs-target="#Gatepass" class="btn btn-outline-info">Print Gate pass</a>
     <a type="button" data-bs-toggle="modal" data-bs-target="#tagsmodal" class="btn btn-info">Print Tags</a>
-    <a onclick="window.print()" type="button" class="btn btn-outline-info">Print Invoice</a>
   </div>
 </div>
 
@@ -77,6 +78,8 @@
               <tr class="add">
                 <td>#</td>
                 <td>Name</td>
+                <td>Product Code</td>
+                <td>Unit/SQM</td>
                 <td>Quantity</td>
                 <td>Price</td>
                 <td class="text-center">SubTotal</td>
@@ -85,6 +88,8 @@
               <tr class="content">
                 <td>{{forloop.counter}}</td>
                 <td>{{i.product.title}}</td>
+                <td>{{i.product.product_number}}</td>
+                <td>{{ i.product.unit_or_sqm }}</td>
                 <td>{{i.quantity}}</td>
                 <td>{{i.product.new_price}}</td>
                 <td class="text-center">{{i.product.new_price|mul:i.quantity}}</td>
@@ -106,7 +111,7 @@
             <div class="mb-4 add">
               Payeable Amount<br>
             </div>
-            <span class=" fw-bold content">Subtotal: {{total}}</span><br>
+            <span class=" fw-bold content">Total: {{total}}</span><br>
             <span class=" fw-bold content">Shipping Amount: {{transaction.shipping_amount}}</span><br>
             <span class=" fw-bold content">Total Amount: {{total|add:transaction.shipping_amount}}</span><br>
           </div>
@@ -209,6 +214,93 @@
   </div>
 </div>
 
+
+{% comment %} gate pass {% endcomment %}
+
+
+<div class="modal modal-xl fade" id="Gatepass" tabindex="-1" aria-labelledby="tagsmodalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="print_not_show modal-title fs-5" id="tagsmodalLabel">Print Gate Pass</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="show_data_on_print modal-body">
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="d-flex flex-row p-2 mt-3 mb-3">
+                <img src="{{settings.shop_logo.url}}" width="48">
+                <div class="d-flex flex-column"> <span class="fw-bold">Order Invoice</span># {{transaction.transaction_id}} </div>
+              </div>
+              <hr>
+              <div class="table-responsive p-2">
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr class="add">
+                      <td>To</td>
+                      <td>From</td>
+                    </tr>
+                    <tr class="content">
+                      <td class="fw-bold">{{order_detail.first_name}} <br>{{order_detail.street_address}}
+                        <br>{{order_detail.city}}</td>
+                      <td class="fw-bold">{{order_detail.showroom.showroom_name}} <br> {{order_detail.showroom.address}} </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <hr>
+              <div class="products p-2">
+                <table class="table table">
+                  <tbody>
+                    <tr class="add">
+                      <td>#</td>
+                      <td>Name</td>
+                      <td>Product Code</td>
+                      <td>unit/SQM</td>
+                      <td>Quantity</td>
+                    
+                    </tr>
+                    {% for i in order_items %}
+                    <tr class="content">
+                      <td>{{forloop.counter}}</td>
+                      <td>{{i.product.title}}</td>
+                      <td>{{i.product.product_number}}</td>
+                      <td>{{ i.product.unit_or_sqm }}</td>
+
+                      <td>{{i.quantity}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                      <td colspan="4"><strong>Total Quantity:</strong></td>
+                      <td>
+                        <span id="totalQuantity">Calculating...</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <hr>
+          
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="print_not_show modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button onclick="window.print()" type="button" class="btn btn-primary">Print Gate Pass</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+{% comment %} gata pass {% endcomment %}
+
+
+
 <script>
   function rejectOrder() {
     return confirm("Are you sure you want to reject this order?Your can't able to change this.We send an email to this customer on rejection.");
@@ -220,3 +312,25 @@
   }
 </script>
 {% endblock content %}
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var orderItems = [
+      {% for i in order_items %}
+        {
+          "quantity": {{ i.quantity }},
+        },
+      {% endfor %}
+    ];
+
+    var totalQuantity = 0;
+
+    for (var i = 0; i < orderItems.length; i++) {
+      totalQuantity += orderItems[i].quantity;
+    }
+
+    document.getElementById("totalQuantity").textContent = totalQuantity;
+  });
+</script>
+{% endblock scripts %}

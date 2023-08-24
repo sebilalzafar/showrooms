@@ -15,7 +15,7 @@ class ProductForm(forms.ModelForm):
     def __init__(self, user  , *args, **kwargs ):
         super().__init__(*args, **kwargs)
         showroom = Showrooms.objects.get(id=user.id)
-        self.fields['category'].queryset = Categories.objects.filter(showroom_type=showroom.showroom_type)
+        self.fields['category'].queryset =     Categories.objects.filter(showroom_type=showroom.showroom_type)
         self.fields['company_name'].queryset = Company_name.objects.filter(showroom_type=showroom.showroom_type)
 
         

@@ -140,9 +140,6 @@ class Company_name(models.Model):
     showroom_type = models.CharField( max_length=50,choices=SHOWROOM_TYPES ,default="")
     name = models.CharField( max_length=50) 
     created_at = models.DateField( auto_now_add=True)
-    class Meta:
-        verbose_name_plural = 'Company Name'
-
     def __str__(self):
         return f"{self.name}" 
 
@@ -153,21 +150,30 @@ IMPORTED_OR_LOCAL = (
 )
 
 
+UNIT_OR_SQM = (
+    ('Unit','Unit'),
+    ('SQM','SQM'),
+
+)
 
 
+
+#unit or aquare meter
 class Product(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4 , unique=True)
     showroom = models.ForeignKey(Showrooms, on_delete=models.CASCADE)
-    title = models.CharField( max_length=50)
+    title = models.CharField( max_length=200)
     image = models.ImageField(upload_to="products" )
-    company_name = models.ForeignKey(Company_name, on_delete=models.CASCADE)
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    company_name = models.ForeignKey(Company_name, on_delete=models.CASCADE,blank=True, null=True)
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE,blank=True, null=True)
     product_number = models.CharField( max_length=50)
-    imported_or_local = models.CharField( max_length=50,choices=IMPORTED_OR_LOCAL ,)
+    imported_or_local = models.CharField( max_length=50,choices=IMPORTED_OR_LOCAL ,default="")
+    unit_or_sqm = models.CharField( max_length=50,choices=UNIT_OR_SQM ,default="")
     old_price = models.IntegerField()
     new_price = models.IntegerField()
     discount_price = models.CharField( max_length=50 , blank=True, null=True,default="0% Off")
     description =  models.TextField()
+    custom_fields = models.JSONField(blank=True, null=True)
     created_at = models.DateField( auto_now_add=True)
     def __str__(self):
         return f"{self.showroom}({self.title})"     

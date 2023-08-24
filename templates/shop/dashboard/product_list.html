@@ -6,7 +6,32 @@
 {% block content %}
 <link href="{% static 'products_list.css' %}" rel="stylesheet">
   
+<div class="row">
+  <form action="" class="justify-content-between d-flex">
+
+  <div>
+    <select name="category" class="form-select single-select" onchange="this.form.submit()">
+      <option value="all" {% if filter_category == "all" %}selected{% endif %} >All Categories</option>
+      {% for i in categories %}
+      <option value="{{i.name}}" {% if filter_category == i.name|stringformat:'s' %}selected{% endif %}>{{i.name}}</option>
+      {% endfor %}
+  </select>
+  </div>
+  
+  <div>
+    <input {% if filter_product == 'all' %}{% else %}value="{{filter_product}}"{% endif %} name="product_code" class="form-control" placeholder="search product code...">
+  </div>
+
+</form>
+
+</div>
+
+<hr>
 <h1>All Products</h1>
+
+
+
+<hr>
 <div class="container">
   <div class="table-wrap">
     <table class="table table-responsive table-borderless">

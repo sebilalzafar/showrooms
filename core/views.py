@@ -133,14 +133,35 @@ def shop(request,pk,id):
             settings = showroom_settings.objects.get(showroom=showroom)
         except:
             settings=None
+        order, created = Order.objects.get_or_create(user=request.user,showroom = showroom, ordered=False)
+        cart_item_count = OrderItem.objects.filter(order=order).count()
         categories = Categories.objects.filter(showroom_type = showroom.showroom_type)
+        
         product = Product.objects.filter(showroom=showroom)
+        
+        filter_category = request.GET.get('category', 'all')
+        filter_sort = request.GET.get('sort', 'all')
+        if filter_category != 'all':
+            product = Product.objects.filter(category__name=filter_category)
+      
+            
+
+        if filter_sort == 'Imported':
+            product = product.order_by('imported_or_local')  # Ordering by the 'imported_or_local' field
+        elif filter_sort == 'Local':
+            product = product.order_by('-imported_or_local')
+  
+            
+        
         context = {
             
             'categories':categories,
             'product':product,
             'showroom':showroom,
             'settings':settings,
+            'cart_item_count':cart_item_count,
+            'filter_category':filter_category,
+            'filter_sort':filter_sort,
         }
         return render(request,"shop/products.html",context)
 
@@ -156,12 +177,17 @@ def shop_cart(request,showroom_id):
     if Order.objects.filter(user=request.user , showroom = showroom , ordered=False).exists():
         order = Order.objects.get(user=request.user , showroom = showroom , ordered=False)
         order_items = OrderItem.objects.filter(order=order )
+        
+        cart_item_count = OrderItem.objects.filter(order=order).count()
+        
         subtotal = sum(item.product.new_price * item.quantity for item in order_items)
         context = {
             'order_items':order_items,
             'showroom':showroom,
             'subtotal':subtotal,
             'settings':settings,
+            'cart_item_count':cart_item_count,
+            
         }
         return render(request,"shop/cart.html",context)
     else:
@@ -187,7 +213,8 @@ def checkout(request,showroom_id):
         if Order.objects.filter(user=request.user , showroom = showroom , ordered=False).exists():
             order = Order.objects.get(user=request.user , showroom = showroom , ordered=False)
             order_items = OrderItem.objects.filter(order=order )
-           
+      
+            cart_item_count = OrderItem.objects.filter(order=order).count()
             
             subtotal = sum(item.product.new_price * item.quantity for item in order_items)
             context = {
@@ -196,6 +223,8 @@ def checkout(request,showroom_id):
                 'subtotal':subtotal,
                 'order':order,
                 'settings':settings,
+                'cart_item_count':cart_item_count,
+                
             }
             return render(request,"shop/checkout.html",context)
         else:
@@ -219,14 +248,26 @@ def add_to_cart(request, product_id , showroom_id):
     order, created = Order.objects.get_or_create(user=request.user,showroom = showroom, ordered=False)
     order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
     if not created:
-        order_item.quantity += 1
-        order_item.save()
+     
         #messages.success(request, f"{product.title} quantity updated in cart.")
-        return HttpResponse("Updated")
+        return HttpResponse("Already In Cart")
         
     else:
         #messages.success(request, f"{product.title} added to cart.")
         return HttpResponse("Added")
+
+
+@cache_control(no_cache=True, must_revalidate=True , no_store=True)
+@login_required(login_url='home')
+def get_cart_count(request, showroom_id):
+    showroom = Showrooms.objects.get(id=showroom_id)
+    order, created = Order.objects.get_or_create(user=request.user,showroom = showroom, ordered=False)
+    cart_item_count = OrderItem.objects.filter(order=order).count()
+    response_data = {'cart_item_count': cart_item_count}
+    print(response_data)
+    return JsonResponse(response_data)
+
+
 
 
 @cache_control(no_cache=True, must_revalidate=True , no_store=True)
@@ -557,10 +598,29 @@ def check_category(request):
 def all_products(request):
     if request.user.showroom_owner == True:
         showroom = Showrooms.objects.get(id=request.user.id)
-        products = Product.objects.filter(showroom = showroom)
+        categories = Categories.objects.filter(showroom_type = showroom.showroom_type)
+        
+        
+        filter_category = request.GET.get('category', 'all')
+        filter_product = request.GET.get('product_code', 'all')
+        products = Product.objects.filter(showroom=showroom)
+    
+        
+        if filter_category != 'all' and filter_product != 'all':
+            products = products.filter(category__name=filter_category, product_number__icontains=filter_product)
+        elif filter_category != 'all':
+            products = products.filter(category__name=filter_category)
+        elif filter_product != 'all':
+            products = products.filter(product_number__icontains=filter_product)
+        
+        
+        
         context = {
             "showroom": showroom,
             "products": products,
+            "categories": categories,
+            "filter_category": filter_category,
+            "filter_product": filter_product,
         }
         return render(request , "shop/dashboard/product_list.html" ,context)
     else:
@@ -572,20 +632,62 @@ def all_products(request):
 def add_product(request):
     if request.user.showroom_owner == True:
         showroom = Showrooms.objects.get(id=request.user.id)
-      
+        categories= Categories.objects.filter(showroom_type=showroom.showroom_type)
+        company_name= Company_name.objects.filter(showroom_type=showroom.showroom_type)
+       
         if request.method == 'POST':
-            form = ProductForm( request.user,request.POST, request.FILES )
-            if form.is_valid():
-                fm = form.save(commit = False)
-                fm.showroom = showroom
-                fm.save()
-                messages.success(request,"Product Added Succesfully.")
-                return redirect('all_products')
+            category = request.POST.get('category')
+            company = request.POST.get('company')
+            imported_or_local = request.POST.get('imported_or_local')
+            old_price = request.POST.get('old_price')
+            title = request.POST.get('title')
+            product_number = request.POST.get('product_number')
+            new_price = request.POST.get('new_price')
+            discount_price = request.POST.get('discount_price')
+            image = request.FILES.get('image')
+            description = request.POST.get('description')
+            unit_or_sqm = request.POST.get('unit_or_sqm')
+            print("=============================================")
+            print(category , company_name)
+            print("=============================================")
+
+            try:
+                category_instance = Categories.objects.get(pk=category)
+                company_instance = Company_name.objects.get(pk=company)
+            except Categories.DoesNotExist:
+                category_instance = None 
+                company_instance = None 
+            
+            custom_fields = []
+            
+            # Process the initial form (without count)
+            initial_title = request.POST.get('custom_field_title')
+            initial_detail = request.POST.get('custom_field_detail')
+            custom_fields.append({"title": initial_title, "detail": initial_detail})
+            #with count 
+            for key, value in request.POST.items():
+                if key.startswith('custom_field_title_'):
+                    field_number = key.split('_')[-1]
+                    field_title = value
+                    field_detail = request.POST.get(f'custom_field_detail_{field_number}')
+                    custom_fields.append({"title": field_title, "detail": field_detail})
+
+
+
+            a = Product.objects.create(showroom=showroom,category = category_instance,
+                                       company_name = company_instance,title=title,
+                                       image = image , imported_or_local = imported_or_local,old_price = old_price,
+                                       new_price = new_price, discount_price = discount_price ,
+                                       description = description,custom_fields = custom_fields , product_number =product_number,unit_or_sqm=unit_or_sqm
+                                       )
+            a.save()
+            messages.success(request,"Product added succesfully")
+            return redirect(request.path)
         else:
-            form = ProductForm(request.user)
             context = {
             "showroom": showroom,
-            'form': form
+            "categories": categories,
+            "company_name": company_name,
                                 }
             return render(request, 'shop/dashboard/add_product.html', context)
     else:
@@ -708,6 +810,12 @@ def logout(request):
     django_logout(request)
     messages.error(request,"Logged Out.")
     return redirect('home')
+
+
+def user_logout(request , showroom_id):
+    django_logout(request)
+    messages.error(request,"Logged Out.")
+    return redirect('360_and_shop',pk=showroom_id)
 
 
 

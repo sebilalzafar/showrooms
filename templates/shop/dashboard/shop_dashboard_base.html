@@ -109,6 +109,12 @@
               Shop Configration
             </a>
           </li>
+          <li class="nav-item">
+            <a target="_blank" class="nav-link {% if request.resolver_match.view_name == '360_and_shop' %} active{% endif %}" href="{% url '360_and_shop' showroom.id %}">
+              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+              My Shop
+            </a>
+          </li>
 
         </ul>
 

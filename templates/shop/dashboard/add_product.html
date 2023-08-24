@@ -1,62 +1,171 @@
-{% extends 'shop/dashboard/shop_dashboard_base.html' %} 
+{% extends 'shop/dashboard/shop_dashboard_base.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
 <!-- add_product.html -->
 
 
 
 {% block content %}
-  <div class="myForm">
-    <form method='POST'  enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="row">
-         <div class="col-sm-7">
-                <div class="form-row">
-                  <div class="form-group">
-                    {{ form.title|as_crispy_field }}
-                    {{ form.company_name|as_crispy_field }}
-                  </div>
-                  <div class="form-group">
-                    {{ form.category|as_crispy_field }}
-                    {{ form.product_number|as_crispy_field }}
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group">
-                    {{ form.imported_or_local|as_crispy_field }}
-                  </div>
-                  <div class="form-group ">
-                    {{ form.old_price|as_crispy_field }}
-                  </div>
-                  <div class="form-group ">
-                    {{ form.new_price|as_crispy_field }}
-                  </div>
-                  <div class="form-group ">
-                    {{ form.discount_price|as_crispy_field }}
-                  </div>
-                </div>
+<div class="card">
+  <h5 class="text-center mb-4">Add Product</h5>
+  <form enctype="multipart/form-data" method="POST" class="form-card p-4">
+    {% csrf_token %}
+    <div class="row justify-content-between text-left">
+      <div class="form-group col-sm-6 flex-column d-flex">
+        <select name="category" class="form-select " aria-label="Default select example">
+          <option selected>Category</option>
+          {% for c in categories %}
+          <option value="{{c.id}}">{{c.name}}</option>
+          {% endfor %}
+          
+        </select>
+      </div>
+      <div class="form-group col-sm-6 flex-column d-flex">
+        <select name="company" class="form-select" aria-label="Default select example">
+          <option selected>Company</option>
+          {% for cn in company_name %}
+          <option value="{{cn.id}}">{{cn.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="row justify-content-between text-left">
+      <div class="form-group col-sm-6 flex-column d-flex">
+        <label for="mob" class="form-control-label px-3">Imported or Local<span class="text-danger"> *</span></label>
 
-                <div class="form-row">
-                  <div class="form-group">
-                    {{ form.description|as_crispy_field }}
-                  </div>
-                  <div class="form-group ">
-                    {{ form.image|as_crispy_field }}
-                  </div>
-                
-             
-                </div>
-                
+        <select name="imported_or_local" class="form-select" aria-label="Default select example">
+         
+          <option value="Local">Local</option>
+          <option value="Imported">Imported</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-6 flex-column d-flex">
+        <label for="mob" class="form-control-label px-3">Unit or SQM<span class="text-danger"> *</span></label>
 
-
-         </div>
-         <div class="col-sm-5 ">
-            <button type="submit" class="w-100 btn btn-primary mb-2">Save</button>
-            <button type="reset" class="w-100 btn btn-warning">Reset</button>
-
-         </div>
-
+        <select name="unit_or_sqm" class="form-select " aria-label="Default select example">
+          <option value="Unit">UNIT</option>
+          <option value="SQM">SQM</option>
+        </select>
+      </div>
+      <div class="row justify-content-between text-left">
+        <div class="form-group col-12 flex-column d-flex">
+            <label for="mob" class="form-control-label px-3">Title<span class="text-danger"> *</span></label>
+            <input required  name="title" type="text" name="mob" class="form-control" placeholder="">
         </div>
-    </form>
-</div><!-- End myform -->
+      </div>
+    </div>
+    <div class="row justify-content-between text-left">
+      <div class="form-group col-sm-6 flex-column d-flex">
+        <label for="job" class="form-control-label px-3">Product Code<span class="text-danger"> *</span></label>
+        <input required name="product_number" type="text" id="job" name="job" class="form-control" placeholder="">
+      </div>
+      <div class="form-group col-sm-6 flex-column d-flex">
+        <label for="job" class="form-control-label px-3">Tag Price<span class="text-danger"> *</span></label>
+        <input required name="old_price" id="old_price" type="number" min="0" id="job" name="job" class="form-control" placeholder="">
+      </div>
+    </div>
+    <div class="row justify-content-between text-left">
+      <div class="form-group col-sm-6 flex-column d-flex">
+        <label for="ans" class="form-control-label px-3">Sale Price<span class="text-danger"> *</span></label>
+        <input required name="new_price" id="new_price" type="number" min="0" id="ans" name="ans" class="form-control" placeholder="">
+      </div>
+      <div class="form-group col-sm-6 flex-column d-flex">
+        <label for="ans" class="form-control-label px-3">Discount Price<span class="text-danger"> *</span></label>
+        <input  required name="discount_price" id="discount_price" type="text" id="ans" name="ans" class="form-control" placeholder="">
+      </div>
+    </div>
+    <div class="row justify-content-between text-left">
+      <div class="form-group col-12 flex-column d-flex">
+        <label class="form-label">Description<span class="text-danger"> *</span></label>
+        <textarea name="description" class="form-control" rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="row justify-content-between text-left">
+      <div class="form-group col-12 flex-column d-flex">
+        <label class="form-label">Product Image<span class="text-danger"> *</span></label>
+        <input required name="image" type="file" id="ans" name="ans" class="form-control" placeholder="">
+
+      </div>
+    </div>
+    <hr>
+    <div class="row justify-content-between text-left">
+      <div class="form-group col-12 flex-column d-flex">
+        <fieldset>
+
+
+          <!-- Text input-->
+          <div id="items" class="form-group">
+            <label class="col-md-4 control-label" for="textinput">Field Title<span class="text-danger"> *</span></label>
+              <input required id="textinput" name="custom_field_title" type="text" placeholder="Title "
+                class="form-control input-md">
+            <label class="col-md-4 control-label" for="textinput">Detail<span class="text-danger"> *</span></label>
+              <input required id="textinput" name="custom_field_detail" type="text" placeholder="Detail"
+                class="form-control input-md">
+
+          </div>
+          <div  class="btn-group" role="group" aria-label="Basic mixed styles example">
+            <button id="add" type="button" class="btn btn-danger add-more">Add</button>
+            <button type="button" class="delete btn btn-success">Remove</button>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="row justify-content-end">
+      <div class="form-group col-sm-6">
+        <button type="submit" class="btn btn-primary btn-block">Add Product</button>
+      </div>
+    </div>
+  </form>
+
+</div>
+
 {% endblock content%}
+
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+
+ $(document).ready(function() {
+  $(".delete").hide();
+  var fieldCount = 0;  // Initialize a field count variable
+  
+  $("#add").click(function(e) {
+    $(".delete").fadeIn("1500");
+    fieldCount++;  // Increment the field count
+    
+    $("#items").append(
+      '<label class="col-md-4 control-label" for="textinput">Field Title</label><input required id="textinput" name="custom_field_title_' + fieldCount + '" type="text" placeholder="Title" class="form-control input-md"><label class="col-md-4 control-label" for="textinput">Detail</label><input required id="textinput" name="custom_field_detail_' + fieldCount + '" type="text" placeholder="Detail" class="form-control input-md">'
+    );
+  });
+  
+  $("body").on("click", ".delete", function(e) {
+    $(".next-referral").last().remove();
+    fieldCount--;  // Decrement the field count
+  });
+});
+
+  
+</script>
+<script>
+  const oldPriceInput = document.getElementById("old_price");
+  const newPriceInput = document.getElementById("new_price");
+  const discountPercentageInput = document.getElementById("discount_price");
+
+  function calculateDiscountPercentage() {
+    const oldPrice = parseFloat(oldPriceInput.value);
+    const newPrice = parseFloat(newPriceInput.value);
+
+    if (!isNaN(oldPrice) && !isNaN(newPrice) && oldPrice > 0) {
+      const discountPercentage = ((oldPrice - newPrice) / oldPrice) * 100;
+      discountPercentageInput.value = discountPercentage.toFixed(0) + "% Off";
+    } else {
+      discountPercentageInput.value = "";
+    }
+  }
+
+  oldPriceInput.addEventListener("input", calculateDiscountPercentage);
+  newPriceInput.addEventListener("input", calculateDiscountPercentage);
+</script>
+{% endblock scripts %}
