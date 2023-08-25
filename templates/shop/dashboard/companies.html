@@ -13,6 +13,7 @@
                 <tr class="fw-bold">    
                     <td>Name</td>
                     <td>Type</td>
+                    <td>Action</td>
                 </tr>
             </thead>
 
@@ -21,6 +22,7 @@
                 <tr>
                     <td>{{i.name}}</td>
                     <td>{{i.showroom_type}}</td>
+                    <td><a onclick="return confirmDelete();"  href="{% url 'delete_company' i.pk %}">Delete</a></td>
                 </tr>
                 {% endfor %}
 
@@ -63,3 +65,12 @@
   </div>
 
 {% endblock content %}
+
+{% block scripts %}
+<script>
+  function confirmDelete(){
+    return confirm("Are you sure to delete?");
+  }
+</script>
+
+{% endblock scripts %}

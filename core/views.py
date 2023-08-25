@@ -538,6 +538,20 @@ def all_companies(request):
         return redirect("shop_dashboard_signin")
 
 
+def delete_company(request , company_id):
+    company = Company_name.objects.filter(pk = company_id)
+    company.delete()
+    messages.success(request,"Company deleted successfully")
+    return redirect(request.META['HTTP_REFERER'])
+
+
+def delete_category(request , category_id):
+    company = Categories.objects.filter(pk = category_id)
+    company.delete()
+    messages.success(request,"Category deleted successfully")
+    return redirect(request.META['HTTP_REFERER'])
+
+
 
 def check_company(request):
     company_name = request.POST.get('company_name').lower()

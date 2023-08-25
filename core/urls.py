@@ -26,8 +26,11 @@ urlpatterns = [
     path('shop-dashboard/analytics', views.google_analytics, name="google_analytics"),
     path('settings', views.settings, name="settings"),
     path('all-companies', views.all_companies, name="all_companies"),
+    path('all-companies/delete-company/<str:company_id>', views.delete_company, name="delete_company"),
     path('check_company', views.check_company , name='check_company'),
     path('all-categories', views.all_categories, name="all_categories"),
+    path('all-categories/delete-category/<str:category_id>', views.delete_category, name="delete_category"),
+    
     path('check_category', views.check_category , name='check_category'),
     
     
