@@ -24,7 +24,7 @@ def all_orders(request):
         products = Product.objects.filter(showroom = showroom)
         filter_status = request.GET.get('status', 'all')
         if filter_status == 'all':
-            orders = Order.objects.filter(showroom=showroom).order_by('-created_at')
+            orders = Order.objects.filter(showroom=showroom , ordered = True).order_by('-created_at')
         elif filter_status == 'accepted':
             orders = Order.objects.filter(showroom=showroom,accepted=True , delivered=False).order_by('-created_at')
         elif filter_status == 'rejected':

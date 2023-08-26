@@ -112,8 +112,7 @@
                                                         class="single-product-thumbnail axil-product thumbnail-badge zoom-gallery">
                                                         <div class="thumbnail">
 
-                                                                <img  src="{{i.image.url}}"  />
-                                                                
+                                                                    <img src="{{i.image.url}}"  alt="Product Image"/>
                                                             <div class="label-block label-right">
                                                                 <div class="product-badget">
                                                                     {{i.discount_price}}
@@ -133,7 +132,7 @@
                                             <div class="single-product-content">
                                                 <div class="inner">
                                                     <h3 class="product-title">{{i.title|upper}}</h3>
-                                                    <span class="price-amount">{{i.new_price}}</span>
+                                                    <span class="price-amount">Rs.{{i.new_price}}/{{i.unit_or_sqm}}</span>
                                                     <span class="text-decoration-line-through">{{i.old_price}}</span>
                                                     <ul class="product-meta">
                                                         <li>
@@ -169,7 +168,7 @@
                                                                             data-bs-target="#flush-collapseOne"
                                                                             aria-expanded="false"
                                                                             aria-controls="flush-collapseOne">
-                                                                            Description
+                                                                            <p> Description </p>
                                                                         </button>
                                                                     </h2>
                                                                     <div id="flush-collapseOne"

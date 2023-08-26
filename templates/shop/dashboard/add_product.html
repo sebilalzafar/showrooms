@@ -96,16 +96,15 @@
           <!-- Text input-->
           <div id="items" class="form-group">
             <label class="col-md-4 control-label" for="textinput">Field Title<span class="text-danger"> *</span></label>
-              <input required id="textinput" name="custom_field_title" type="text" placeholder="Title "
+              <input  id="textinput" name="custom_field_title" type="text" placeholder="Title "
                 class="form-control input-md">
             <label class="col-md-4 control-label" for="textinput">Detail<span class="text-danger"> *</span></label>
-              <input required id="textinput" name="custom_field_detail" type="text" placeholder="Detail"
+              <input  id="textinput" name="custom_field_detail" type="text" placeholder="Detail"
                 class="form-control input-md">
 
           </div>
           <div  class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <button id="add" type="button" class="btn btn-danger add-more">Add</button>
-            <button type="button" class="delete btn btn-success">Remove</button>
+            <button id="add" type="button" class="btn btn-success add-more">Add</button>
           </div>
         </fieldset>
       </div>
@@ -126,27 +125,30 @@
 {% block scripts %}
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
-
- $(document).ready(function() {
-  $(".delete").hide();
-  var fieldCount = 0;  // Initialize a field count variable
-  
-  $("#add").click(function(e) {
-    $(".delete").fadeIn("1500");
-    fieldCount++;  // Increment the field count
+  $(document).ready(function() {
+    var fieldCount = 0;  // Initialize a field count variable
     
-    $("#items").append(
-      '<label class="col-md-4 control-label" for="textinput">Field Title</label><input required id="textinput" name="custom_field_title_' + fieldCount + '" type="text" placeholder="Title" class="form-control input-md"><label class="col-md-4 control-label" for="textinput">Detail</label><input required id="textinput" name="custom_field_detail_' + fieldCount + '" type="text" placeholder="Detail" class="form-control input-md">'
-    );
+    $("#add").click(function(e) {
+      $(".delete").fadeIn("1500");
+      fieldCount++;  // Increment the field count
+      
+      $("#items").append(
+        '<div class="next-referral">' +
+          '<label class="col-md-4 control-label" for="custom_field_title_' + fieldCount + '">Field Title</label>' +
+          '<input required id="custom_field_title_' + fieldCount + '" name="custom_field_title_' + fieldCount + '" type="text" placeholder="Title" class="form-control input-md">' +
+          '<label class="col-md-4 control-label" for="custom_field_detail_' + fieldCount + '">Detail</label>' +
+          '<input required id="custom_field_detail_' + fieldCount + '" name="custom_field_detail_' + fieldCount + '" type="text" placeholder="Detail" class="form-control input-md">' +
+          '<button class="delete btn  btn-danger mb-2" data-field-count="' + fieldCount + '">X</button>' +
+        '</div>'
+      );
+    });
+    
+    $("body").on("click", ".delete", function(e) {
+      var fieldToDelete = $(this).data("field-count");
+      $("#custom_field_title_" + fieldToDelete).parent().remove();
+      fieldCount--;  // Decrement the field count
+    });
   });
-  
-  $("body").on("click", ".delete", function(e) {
-    $(".next-referral").last().remove();
-    fieldCount--;  // Decrement the field count
-  });
-});
-
-  
 </script>
 <script>
   const oldPriceInput = document.getElementById("old_price");

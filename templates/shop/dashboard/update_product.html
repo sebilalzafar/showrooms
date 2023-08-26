@@ -23,6 +23,9 @@
                   <div class="form-group">
                     {{ form.imported_or_local|as_crispy_field }}
                   </div>
+                  <div class="form-group">
+                    {{ form.unit_or_sqm|as_crispy_field }}
+                  </div>
                   <div class="form-group ">
                     {{ form.old_price|as_crispy_field }}
                   </div>
@@ -58,3 +61,28 @@
     </form>
 </div><!-- End myform -->
 {% endblock content%}
+
+{% block scripts %}
+
+<script>
+  const oldPriceInput = document.getElementById("id_old_price");
+  const newPriceInput = document.getElementById("id_new_price");
+  const discountPercentageInput = document.getElementById("id_discount_price");
+
+  function calculateDiscountPercentage() {
+    const oldPrice = parseFloat(oldPriceInput.value);
+    const newPrice = parseFloat(newPriceInput.value);
+
+    if (!isNaN(oldPrice) && !isNaN(newPrice) && oldPrice > 0) {
+      const discountPercentage = ((oldPrice - newPrice) / oldPrice) * 100;
+      discountPercentageInput.value = discountPercentage.toFixed(0) + "% Off";
+    } else {
+      discountPercentageInput.value = "";
+    }
+  }
+
+  oldPriceInput.addEventListener("input", calculateDiscountPercentage);
+  newPriceInput.addEventListener("input", calculateDiscountPercentage);
+</script>
+
+{% endblock scripts %}

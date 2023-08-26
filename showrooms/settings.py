@@ -24,6 +24,7 @@ SECRET_KEY = 'django-insecure-j1%&=4*1ukb4uavjt=ejokg&d13gp_gqsig1bxje$+fbe&_9ii
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+#DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -83,16 +84,13 @@ WSGI_APPLICATION = 'showrooms.wsgi.application'
 # Database configuration
 #DATABASES = {
 #    'default': {
-#        'ENGINE': 'mysql.connector.django',
+#        'ENGINE': 'django.db.backends.mysql',
 #        'NAME': 'all_showrooms',
 #        'USER': 'root',
 #        'PASSWORD': '',
 #        'HOST':'localhost',
 #        'PORT':'3306',
-#        'OPTIONS': {
-#          'autocommit': True,
-
-#        },
+ 
 #    }
 #}
 

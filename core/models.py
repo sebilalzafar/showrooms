@@ -127,19 +127,26 @@ class Callback(models.Model):
 #Products Model
 
 class Categories(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     showroom_type = models.CharField( max_length=50,choices=SHOWROOM_TYPES ,default="")
     name = models.CharField( max_length=50) 
     created_at = models.DateField( auto_now_add=True)
     class Meta:
         verbose_name_plural = 'Categories'
 
+  
+        
     def __str__(self):
         return f"{self.name}" 
 
 class Company_name(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     showroom_type = models.CharField( max_length=50,choices=SHOWROOM_TYPES ,default="")
     name = models.CharField( max_length=50) 
     created_at = models.DateField( auto_now_add=True)
+    
+
+    
     def __str__(self):
         return f"{self.name}" 
 

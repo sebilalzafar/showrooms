@@ -133,8 +133,13 @@ def shop(request,pk,id):
             settings = showroom_settings.objects.get(showroom=showroom)
         except:
             settings=None
-        order, created = Order.objects.get_or_create(user=request.user,showroom = showroom, ordered=False)
-        cart_item_count = OrderItem.objects.filter(order=order).count()
+        
+        try:
+            order = Order.objects.get(user=request.user,showroom = showroom, ordered=False)
+            cart_item_count = OrderItem.objects.filter(order=order).count()
+            print(cart_item_count)
+        except:
+            cart_item_count = 0
         categories = Categories.objects.filter(showroom_type = showroom.showroom_type)
         
         product = Product.objects.filter(showroom=showroom)
@@ -261,8 +266,12 @@ def add_to_cart(request, product_id , showroom_id):
 @login_required(login_url='home')
 def get_cart_count(request, showroom_id):
     showroom = Showrooms.objects.get(id=showroom_id)
-    order, created = Order.objects.get_or_create(user=request.user,showroom = showroom, ordered=False)
-    cart_item_count = OrderItem.objects.filter(order=order).count()
+    try:
+        order = Order.objects.get(user=request.user,showroom = showroom, ordered=False)
+        cart_item_count = OrderItem.objects.filter(order=order).count()
+        print(cart_item_count)
+    except:
+        cart_item_count = 0
     response_data = {'cart_item_count': cart_item_count}
     print(response_data)
     return JsonResponse(response_data)

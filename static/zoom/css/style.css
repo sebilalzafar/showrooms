@@ -1,0 +1,28 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0;
+}
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+#image {
+  max-width: 100%;
+}
+
+.magnifier {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-size: 500% 500%;
+  visibility: hidden;
+}
