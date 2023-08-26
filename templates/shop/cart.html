@@ -41,10 +41,14 @@
                         font-weight: 600;">{{i.product.unit_or_sqm}}</span><br>
                         <div class="pro-qty item-quantity">
                             <input type="number" class="quantity-input" value="{{i.quantity}}" /> 
+                            
                         </div>
                         <div class="btn-group  item-quantity" role="group" aria-label="Basic mixed styles example">
                             <button type="button" onclick="location.href='{% url 'remove_from_cart' i.product.pk %}?next={{ request.path|urlencode }}'" class="btn btn-danger ">Less</button>
-                            <input type="number" disabled class="quantity-input" value="{{i.quantity}}" /> 
+                            <form method = "POST" action = "{% url 'add_to_cart_in_cart_quantity' i.product.pk %}?next={{ request.path|urlencode }}">
+                                {% csrf_token %}
+                                <input type="number" min="1" name="quantity_cart" class="quantity-input" value="{{i.quantity}}" /> 
+                            </form>
                             <button type="button" onclick="location.href='{% url 'add_to_cart_in_cart' i.product.pk %}?next={{ request.path|urlencode }}'" class="btn btn-success">Add</button>
                             {% comment %}{% url 'shop' showroom.showroom_type showroom.id %}?next={{ request.path|urlencode }}{% endcomment %}
                           </div>

@@ -46,6 +46,7 @@ urlpatterns = [
     path('shop-cart/<str:showroom_id>', views.shop_cart, name='shop_cart'),
     path('add-to-cart/<str:product_id>/<str:showroom_id>', views.add_to_cart, name='add_to_cart'),
     path('add-to-cart-in-cart/<str:product_id>/', views.add_to_cart_in_cart, name='add_to_cart_in_cart'),
+    path('add-to-cart-in-cart-quantity/<str:product_id>/', views.add_to_cart_in_cart_quantity, name='add_to_cart_in_cart_quantity'),
     path('remove-from-cart/<str:product_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('delete-from-cart/<str:product_id>/', views.delete_from_cart, name='delete_from_cart'),
     path('checkout/<str:showroom_id>', views.checkout, name='checkout'),
