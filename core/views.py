@@ -137,9 +137,9 @@ def shop(request,pk,id):
         try:
             order = Order.objects.get(user=request.user,showroom = showroom, ordered=False)
             cart_item_count = OrderItem.objects.filter(order=order).count()
-            print(cart_item_count)
         except:
             cart_item_count = 0
+        cart_items = OrderItem.objects.filter(order=order)
         categories = Categories.objects.filter(showroom_type = showroom.showroom_type)
         
         product = Product.objects.filter(showroom=showroom)
@@ -165,6 +165,7 @@ def shop(request,pk,id):
             'showroom':showroom,
             'settings':settings,
             'cart_item_count':cart_item_count,
+            'cart_items':cart_items,
             'filter_category':filter_category,
             'filter_sort':filter_sort,
         }
@@ -311,12 +312,14 @@ def add_to_cart_in_cart_quantity(request, product_id ):
             order_item.quantity = q
             order_item.save()
             messages.success(request, f"{product.title} quantity updated .")
-            return redirect('request.path.HTTP')
+            return HttpResponseRedirect(a)
+
 
             
         else:
             #messages.success(request, f"{product.title} added to cart.")
-            return redirect(a)
+            return HttpResponseRedirect(a)
+
 
 
 

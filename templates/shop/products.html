@@ -67,7 +67,7 @@
                                     <li class="select-option">
                                         <a href="" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                                             hx-post="{% url 'add_to_cart' i.pk showroom.id %}?next={{ request.path|urlencode }}"
-                                            class="axil-btn btn-bg-primary">Add to Cart</a>
+                                            class="axil-btn btn-bg-primary add-to-cart-btn" data-product-id="{{ i.pk }}">Add to Cart</a>
                                     </li>
                                     {% comment %}{% url 'add_to_cart' i.pk %}?next={{
                                     request.path|urlencode }}{% endcomment %}
@@ -258,5 +258,83 @@
 
 
 {% block scripts %}
+<!-- Link to jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Your product list and button code -->
+
+<script>
+$(document).ready(function() {
+    var clickedProducts = []; // Array to store clicked product IDs
+
+      // Populate clickedProducts array with product IDs from Django loop
+    {% for a in cart_items %}
+      clickedProducts.push('{{ a.product.id }}');
+    {% endfor %}
+
+    $('.add-to-cart-btn').click(function() {
+        var productID = $(this).data('product-id');
+        
+        if (!clickedProducts.includes(productID)) {
+            // Product hasn't been added yet, increment the cart number and add the product ID to the array
+            updateCartNumber();
+            clickedProducts.push(productID);
+            
+        }else{
+            shakeCartNumber()
+        }
+        
+    });
+
+    function updateCartNumber() {
+        
+   
+
+        var cartNumberElement = $('#cart-count');
+        var currentCount = parseInt(cartNumberElement.text()) || 0;
+        cartNumberElement.text(currentCount + 1);
+
+        // Add shake class to trigger the animation
+        cartNumberElement.addClass('shake');
+
+        // Remove the shake class after the animation completes
+        setTimeout(function() {
+            cartNumberElement.removeClass('shake');
+        }, 2000); // Adjust the time to match your animation duration
+    }
+
+    function shakeCartNumber() {
+        var cartNumberElement = $('#cart-count');
+        cartNumberElement.addClass('shake');
+
+        // Remove the shake class after the animation completes
+        setTimeout(function() {
+            cartNumberElement.removeClass('shake');
+        }, 1000); // Adjust the time to match your animation duration
+    }
+});
+</script>
+
+<style>
+.cart-number {
+    /* Your cart number styles */
+}
+
+.shake {
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25%, 75% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+}
+</style>
 
 {% endblock scripts %}
