@@ -243,9 +243,9 @@
                       <td>From</td>
                     </tr>
                     <tr class="content">
-                      <td class="fw-bold">{{order_detail.first_name}} <br>{{order_detail.street_address}}
-                        <br>{{order_detail.city}}</td>
-                      <td class="fw-bold">{{order_detail.showroom.showroom_name}} <br> {{order_detail.showroom.address}} </td>
+                      <td class="fw-bold">{{order_detail.first_name}} {{order_detail.last_name}}<br>{{order_detail.street_address}}
+                        <br>{{order_detail.city}} <br>Phone: {{order_detail.phone}}</td>
+                      <td class="fw-bold">{{order_detail.showroom.showroom_name}} <br> {{settings.address}}<br>Phone: {{settings.phone}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -282,7 +282,16 @@
                 </table>
               </div>
               <hr>
-          
+              <div class=" p-2 mt-5">
+               <div class="row">
+                <div class="col-12">
+                  <div class="mb-4 add">
+                    Description<br>
+                  </div>
+                  <span class=" content">{{order_detail.order_description}}</span>
+                </div>
+       
+               </div>
             </div>
           </div>
         </div>

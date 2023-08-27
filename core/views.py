@@ -343,6 +343,8 @@ def remove_from_cart(request, product_id):
     return HttpResponseRedirect(a)
 
 
+
+
 @cache_control(no_cache=True, must_revalidate=True , no_store=True)
 @login_required(login_url='home')
 def delete_from_cart(request, product_id):
@@ -698,10 +700,7 @@ def add_product(request):
             image = request.FILES.get('image')
             description = request.POST.get('description')
             unit_or_sqm = request.POST.get('unit_or_sqm')
-            print("=============================================")
-            print(category , company_name)
-            print("=============================================")
-
+   
             try:
                 category_instance = Categories.objects.get(pk=category)
                 company_instance = Company_name.objects.get(pk=company)

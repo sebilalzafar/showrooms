@@ -130,9 +130,7 @@ def deliver_order(request, order_id):
         transaction.shipping_amount = shipping_amount
         transaction.save()
         
-        print(email_message)
-        print(total_payable)
-        print(shipping_amount)
+  
         order_detail.delivered = True
         order_detail.save()
     
