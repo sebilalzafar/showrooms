@@ -139,9 +139,9 @@ def shop(request,pk,id):
             cart_item_count = OrderItem.objects.filter(order=order).count()
         except:
             cart_item_count = 0
-        if order:
+        try:
             cart_items = OrderItem.objects.filter(order=order)
-        else:
+        except:
             cart_items = []  # Set an empty list if order is None
         categories = Categories.objects.filter(showroom_type = showroom.showroom_type)
         
