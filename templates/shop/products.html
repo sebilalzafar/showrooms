@@ -220,7 +220,7 @@
                                                                 <a href=""
                                                                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                                                                     hx-post="{% url 'add_to_cart' i.pk showroom.id %}?next={{ request.path|urlencode }}"
-                                                                    class="axil-btn btn-bg-primary">Add to Cart</a>
+                                                                    class="axil-btn btn-bg-primary add-to-cart-btn" data-product-id="{{ i.pk }}">Add to Cart</a>
                                                                 <span></span>
                                                             </li>
 
