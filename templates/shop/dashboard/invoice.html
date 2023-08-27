@@ -64,9 +64,9 @@
                 <td>From</td>
               </tr>
               <tr class="content">
-                <td class="fw-bold">{{order_detail.first_name}} <br>{{order_detail.street_address}}
-                  <br>{{order_detail.city}}</td>
-                <td class="fw-bold">{{order_detail.showroom.showroom_name}} <br> {{order_detail.showroom.address}} </td>
+                <td class="fw-bold">{{order_detail.first_name}} {{order_detail.last_name}}<br>{{order_detail.street_address}}
+                  <br>{{order_detail.city}} <br>Phone: {{order_detail.phone}}</td>
+                <td class="fw-bold">{{order_detail.showroom.showroom_name}} <br> {{settings.address}}<br>Phone: {{settings.phone}}</td>
               </tr>
             </tbody>
           </table>
@@ -179,7 +179,7 @@
               <p class="mb-0 mt-2 font-italic">From:</p>
               <hr>
               <p class="mb-0 mt-2 font-italic">
-                {{order_detail.showroom.showroom_name}} <br> {{order_detail.showroom.address}}
+                {{order_detail.showroom.showroom_name}} <br> {{settings.address}} <br> Phone: {{settings.phone}}
               </p>
               <footer class="blockquote-footer pt-4 mt-4 border-top">
                 Today's date: {% now "Y-m-d" %}
@@ -196,7 +196,7 @@
               <p class="mb-0 mt-2 font-italic">To:</p>
               <hr>
               <p class="mb-0 mt-2 font-italic">
-                {{order_detail.first_name}} <br>{{order_detail.street_address}} <br>{{order_detail.city}}
+                {{order_detail.first_name}} {{order_detail.last_name}}<br>{{order_detail.street_address}} <br>{{order_detail.city}} <br>Phone: {{order_detail.phone}}
               </p>
               <footer class="blockquote-footer pt-4 mt-4 border-top">
                 Today's date: {% now "Y-m-d" %}

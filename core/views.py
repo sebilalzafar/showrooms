@@ -304,21 +304,19 @@ def add_to_cart_in_cart_quantity(request, product_id ):
         a= request.GET.get('next','')
         q = request.POST.get('quantity_cart')
         
-        print("======================================")
-        print(q)
-        print("======================================")
+
         product = get_object_or_404(Product, pk=product_id)
         order_item, created = OrderItem.objects.get_or_create(order__user=request.user.id, product=product , order__ordered = False)
         if not created:
             order_item.quantity = q
             order_item.save()
             messages.success(request, f"{product.title} quantity updated .")
-            return HttpResponseRedirect(a)
+            return redirect('request.path.HTTP')
 
             
         else:
             #messages.success(request, f"{product.title} added to cart.")
-            return HttpResponseRedirect(a)
+            return redirect(a)
 
 
 

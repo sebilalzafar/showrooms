@@ -28,21 +28,21 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>First Name <span>*</span></label>
-                                        <input required type="text" name="first_name" id="first-name" value="{{request.user.first_name}}">
+                                        <input required type="text" name="first_name" id="first-name" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Last Name <span>*</span></label>
-                                        <input required type="text" name="last_name" id="last-name" value="{{request.user.last_name}}">
+                                        <input required type="text" name="last_name" id="last-name" >
                                     </div>
                                 </div>
                             </div>
                        
             
                             <div class="form-group">
-                                <label>Street Address <span>*</span></label>
-                                <input required type="text" name="street_address" id="address1" class="mb--15" placeholder="House number and street name">
+                                <label>Address <span>*</span></label>
+                                <input required type="text" name="street_address" id="address1" class="mb--15" placeholder="House number and street number">
                             </div>
                             <div class="form-group">
                                 <label>Town/ City <span>*</span></label>
@@ -55,7 +55,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Email Address <span>*</span></label>
-                                <input name="email" required type="email" placeholder="put valid email please" id="email">
+                                <input name="email" required type="email" placeholder="Put valid email please" id="email">
                             </div>
                             <input name="total_amount" hidden value="{{subtotal}}">
                      
