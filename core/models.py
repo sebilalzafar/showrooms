@@ -201,7 +201,7 @@ class Order(models.Model):
     last_name = models.CharField( max_length=50 ,blank=True , null=True)
     street_address = models.CharField( max_length=200,blank=True , null=True)
     city = models.CharField( max_length=50,blank=True , null=True)
-    phone = models.IntegerField(blank=True , null=True)
+    phone = models.CharField( max_length=50,blank=True , null=True)
     email = models.EmailField(max_length=254,blank=True , null=True)
     order_description = models.TextField(blank=True , null=True)
     ordered = models.BooleanField(default=False)

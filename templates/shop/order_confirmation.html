@@ -4,31 +4,35 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title></title>
-	<link href='https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat:700' rel='stylesheet' type='text/css'>
-	<style>
-		@import url(//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css);
-		@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
-	</style>
-	<link rel="stylesheet" href="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/default_thank_you.css">
-	<script src="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/jquery-1.9.1.min.js"></script>
-	<script src="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/html5shiv.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
-	<header class="site-header" id="header">
-		<h1 class="site-header__title" data-lead-id="site-header-title">THANK YOU!</h1>
-		<h3>Check Your Email Address Please.</h3>
-		<p>Redirecting to the main page in <span id="countdown">10</span> seconds...</p>
 
-	</header>
 
-	<div class="main-content">
-		<i class="fa fa-check main-content__checkmark" id="checkmark"></i>
-		<p class="main-content__body" data-lead-id="main-content-body">Thanks a bunch for filling that out. It means a lot to us, just like you do! We really appreciate you giving us a moment of your time today. Thanks for being you.</p>
+	<div class="vh-100 d-flex justify-content-center align-items-center">
+		<div class="col-md-4">
+			<div class="border border-3 border-success"></div>
+			<div class="card  bg-white shadow p-5">
+				<div class="mb-4 text-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="text-success" width="75" height="75"
+						fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+						<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+						<path
+							d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+					</svg>
+				</div>
+				<div class="text-center">
+					<h1>Thank You !</h1>
+					<h3>Check Your Email Address Please.</h3>
+					<p>Redirecting to the main page in <span id="countdown">10</span> seconds...</p>
+					<a href="{% url 'shop' showroom_type showroom_id%}" class="btn btn-outline-success">Continue Shopping</a>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<footer class="site-footer" id="footer">
-        <a href="{% url 'home' %}">Go to Home</a>
-	</footer>
+
 	<script>
 		var countdownElement = document.getElementById('countdown');
 		var countdown = 10;
@@ -38,7 +42,7 @@
 		  countdownElement.innerText = countdown;
 	
 		  if (countdown <= 0) {
-			window.location.href = "{% url 'home' %}";  // Replace 'main_page' with your actual URL name for the main page
+			window.location.href = "{% url '360_and_shop' showroom_id %}";  // Replace 'main_page' with your actual URL name for the main page
 		  } else {
 			setTimeout(updateCountdown, 1000);  // Update countdown every 1 second (1000 milliseconds)
 		  }

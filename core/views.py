@@ -371,6 +371,8 @@ def complete_order(request, order_id):
         street_address = request.POST.get("street_address")
         city = request.POST.get("city")
         phone = request.POST.get("phone")
+        showroom_id = request.POST.get('showroom_id')
+        showroom_type = request.POST.get('showroom_type')
         email = request.POST.get("email")
         order_description = request.POST.get("order_description")
         total_amount = request.POST.get("total_amount")
@@ -392,31 +394,34 @@ def complete_order(request, order_id):
         a.total_amount = total_amount
         a.save()
         
+        #mail system
+        #subject = 'Your order confirmation'
+        ##message = 'Your order has been submitted to , We will Contact in 24 hours .',
+        #from_email = conf_settings.EMAIL_HOST_USER
+        #recipient_list = [a.email]
         
-        subject = 'Your order confirmation'
-        #message = 'Your order has been submitted to , We will Contact in 24 hours .',
-        from_email = conf_settings.EMAIL_HOST_USER
-        recipient_list = [a.email]
+        ##mail(subject, str(message), from_email, recipient_list , fail_silently=False)
         
-        #mail(subject, str(message), from_email, recipient_list , fail_silently=False)
+        ## Render the email template with dynamic content
+        #html_content = render_to_string('email_template.html', {
+        #    'recipient_name': first_name,
+        #    'products_list': a.products_list,
+        #    'office_phone_number': a.showroom.office_phone_number,
+        #})
+        ## Create the email message with HTML content
+        #email = EmailMultiAlternatives(subject, body=html_content, from_email=from_email, to=recipient_list , )
+        #email.attach_alternative(html_content, "text/html")
+        ## Send the email
+        #sent = email.send(fail_silently = False)
+        #if sent == 1:
+        #    print("Email sent successfully.")
+        #else:
+        #    print("Failed to send email.")
         
-        # Render the email template with dynamic content
-        html_content = render_to_string('email_template.html', {
-            'recipient_name': first_name,
-            'products_list': a.products_list,
-            'office_phone_number': a.showroom.office_phone_number,
-        })
-        # Create the email message with HTML content
-        email = EmailMultiAlternatives(subject, body=html_content, from_email=from_email, to=recipient_list , )
-        email.attach_alternative(html_content, "text/html")
-        # Send the email
-        sent = email.send(fail_silently = False)
-        if sent == 1:
-            print("Email sent successfully.")
-        else:
-            print("Failed to send email.")
+        #mail system
         
-        return render(request,"shop/order_confirmation.html")
+        
+        return render(request,"shop/order_confirmation.html" , {'showroom_id':showroom_id , 'showroom_type':showroom_type})
     else:
         return redirect("home")
     

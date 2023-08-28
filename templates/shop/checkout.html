@@ -51,13 +51,15 @@
                      
                             <div class="form-group">
                                 <label>Phone <span>*</span></label>
-                                <input name="phone" required type="number" id="phone">
+                                <input name="phone" pattern="\d{4}-\d{7}" title="0300-0000000" required type="text" id="phone">
                             </div>
                             <div class="form-group">
                                 <label>Email Address <span>*</span></label>
                                 <input name="email" required type="email" placeholder="Put valid email please" id="email">
                             </div>
                             <input name="total_amount" hidden value="{{subtotal}}">
+                            <input name="showroom_id" hidden value="{{showroom.id}}">
+                            <input name="showroom_type" hidden  value="{{showroom.showroom_type}}">
                      
                             <div class="form-group">
                                 <label>Order Description </label>
