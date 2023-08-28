@@ -23,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-j1%&=4*1ukb4uavjt=ejokg&d13gp_gqsig1bxje$+fbe&_9ii'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#DEBUG = False
+#DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -82,33 +82,33 @@ WSGI_APPLICATION = 'showrooms.wsgi.application'
 
 
 # Database configuration
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'all_showrooms',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST':'localhost',
-        'PORT':'3306',
- 
-    }
-}
-
-#live
 #DATABASES = {
 #    'default': {
-#        'ENGINE': 'mysql.connector.django',
-#        'NAME': 'pepintlc_all_showrooms',
-#        'USER': 'pepintlc_all_showrooms',
-#        'PASSWORD': 'Ug.MHLC-e}*^',
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'all_showrooms',
+#        'USER': 'root',
+#        'PASSWORD': '',
 #        'HOST':'localhost',
 #        'PORT':'3306',
-#        'OPTIONS': {
-#          'autocommit': True,
-
-#        },
+ 
 #    }
 #}
+
+#live
+DATABASES = {
+    'default': {
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'pepintlc_all_showrooms',
+        'USER': 'pepintlc_all_showrooms',
+        'PASSWORD': 'Ug.MHLC-e}*^',
+        'HOST':'localhost',
+        'PORT':'3306',
+        'OPTIONS': {
+          'autocommit': True,
+
+        },
+    }
+}
 
 
 
