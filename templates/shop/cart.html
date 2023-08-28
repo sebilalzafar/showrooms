@@ -39,10 +39,7 @@
                         border-radius: 16px;
                         font-size: 12px;
                         font-weight: 600;">{{i.product.unit_or_sqm}}</span><br>
-                        <div class="pro-qty item-quantity">
-                            <input type="number" class="quantity-input" value="{{i.quantity}}" /> 
-                            
-                        </div>
+                   
                         <div class="btn-group  item-quantity" role="group" aria-label="Basic mixed styles example">
                             <button type="button" onclick="location.href='{% url 'remove_from_cart' i.product.pk %}?next={{ request.path|urlencode }}'" class="btn btn-danger ">Less</button>
                             <form method = "POST" action = "{% url 'add_to_cart_in_cart_quantity' i.product.pk %}?next={{ request.path|urlencode }}">

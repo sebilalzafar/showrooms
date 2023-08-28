@@ -170,11 +170,11 @@ def transaction_details(request):
             settings=None
         filter_status = request.GET.get('status', 'all')
         if filter_status == 'all':
-            transaction = Transaction.objects.filter(order__showroom = showroom ,  order__delivered = True)
-        elif filter_status == 'recieved':
-            transaction = Transaction.objects.filter(order__showroom = showroom , status="RECIEVED",order__delivered =True)
+            transaction = Transaction.objects.filter(order__showroom=showroom, order__delivered=True).order_by('-order__created_at')
+        elif filter_status == 'received':
+            transaction = Transaction.objects.filter(order__showroom=showroom, status="RECEIVED", order__delivered=True).order_by('-order__created_at')
         elif filter_status == 'pending':
-            transaction = Transaction.objects.filter(order__showroom = showroom , status="PENDING",order__delivered =True)
+            transaction = Transaction.objects.filter(order__showroom=showroom, status="PENDING", order__delivered=True).order_by('-order__created_at')
         else:
             transaction = Transaction.objects.none()
         
