@@ -8,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'style.css' %}">
   <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <script src="{% static 'js/htmx.js' %}"></script>
+
 {% block head %}
 
 {% endblock head %}
@@ -209,7 +211,6 @@
 
 
   
-  <script src="{% static 'js/htmx.js' %}"></script>
   <script src="{% static 'js/bootstrap.js' %}"></script>
   {% include 'messages.html' %}
 </body>

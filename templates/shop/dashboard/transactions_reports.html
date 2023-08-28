@@ -27,7 +27,7 @@
                         <th scope="col">Transaction ID#</th>
                         <th scope="col">Total Amount without shipping</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Action/</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,7 +37,12 @@
                         <td class="text-uppercase">{{i.transaction_id}}</td>
                         <td class="text-uppercase">Rs {{i.amount}}</td>
                         <td class="text-uppercase">{% if i.status == "RECIEVED" %} <span class="badge bg-success text-wrap">RECIEVED</span> {% else %}<span class="badge bg-danger text-wrap"> PENDING </span> {% endif %}</td>
-                        <td class="text-uppercase">{% if i.status == "PENDING" %}<a href="{% url 'make_paid' i.transaction_id %}?next={{ request.path|urlencode }}" onclick="return makePaid();" class="btn btn-sm btn-primary">Recieved</a>{% else %}<a title="Already Recieved" class="btn btn-sm btn-primary">Recieved</a>{% endif %}</td>
+                        <td class="text-uppercase">   <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            {% if i.status == "PENDING" %}<a href="{% url 'make_paid' i.transaction_id %}?next={{ request.path|urlencode }}" onclick="return makePaid();" class="btn btn-sm btn-primary">Recieved</a>{% else %}<a title="Already Recieved" class="btn btn-sm btn-primary">Recieved</a>{% endif %}
+                            <a href="{% url 'invoice_order' i.order.id %}" type="button" class="btn btn-outline-primary">Invoice</a>
+                          </div></td>
+
+                     
 
                     </tr>
 

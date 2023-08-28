@@ -32,7 +32,9 @@
         {% for i in orders %}
         <tr>
           <td class="text-uppercase">{{forloop.counter}}</td>
-          <td class="text-uppercase">{{i.id}}</td>
+          {% for t in i.transaction_set.all %}
+              <td class="text-uppercase">{{ t.transaction_id }}</td>
+          {% endfor %}
           <td class="text-uppercase">Rs {{i.total_amount}}</td>
           <td class="text-uppercase">{% if i.accepted == True and i.delivered == True  %} <span class="badge bg-success text-wrap">Delivered</span> {% elif i.rejected == True %}<span class="badge bg-danger text-wrap"> Rejected </span>{% elif i.accepted == True  %} <span class="badge bg-info text-wrap">Accepted </span>{% else %} <span class="badge bg-warning text-wrap">Not viewed</span> {% endif %}</td>
           <td class="text-uppercase">{{i.created_at}}</td>

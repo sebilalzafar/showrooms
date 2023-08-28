@@ -33,10 +33,21 @@ def all_orders(request):
             orders = Order.objects.filter(showroom=showroom,delivered=True , accepted = True).order_by('-created_at')
         else:
             orders = Order.objects.none()
+        order_data = []
+        for order in orders:
+            try:
+                transaction = Transaction.objects.get(order=order)
+                order_data.append({
+                    'transaction_id': transaction  # Adjust the field name as needed
+                })
+            except Transaction.DoesNotExist:
+                # Handle the case where no transaction is found
+                pass
         context = {
             "showroom": showroom,
             "products": products,
             "orders": orders,
+            "order_data": order_data,
             'filter_status': filter_status,
         }
         return render(request , "shop/dashboard/all_orders.html" , context)
